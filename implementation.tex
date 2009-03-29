@@ -1,49 +1,56 @@
-\subsection{Firefox AddOn}
+\subsection{DOM Engine}
 
-autoconfig, visual tagging, results
+KHTML/WebKit (KDE, Apple), JavaScriptCore or V8 (Google);
+The Gecko engine (Mozilla Corporation) and it's JavaScript implementation Spidermonkey;
+We briefly checked on Presto (Opera) and Trident (Microsoft), but discarded them due to their proprietary nature.
 
-\subsection{Web Server}
+\subsubsection{Firefox AddOn}
 
-CGI for client control, tutorial
+To avoid interference with other AddOns and existing configuration, we suggest creating a new browser profile for use with the AddOn.
+For easy use, Firefox' proxy configuration is automatically pointed to a preconfigured host and the user is directed to a special landing page upon successful installation.
+visual tagging, results
 
-\subsection{Database}
+\subsubsection{XUL Application}
 
-Raw HTML in sqlite3
-
-\subsection{XUL Application}
-
+The XUL application (or \textit{app} for short) 
 Dumper, Grabber, Crawler
 
-% if you like:
+% ens said: if you like:
 % \cite{NajorkHeydon2001,ShkapenyukSuel2002}
-%@TECHREPORT{NajorkHeydon2001,
-%  author = {Marc Najork and Allan Heydon},
-%  title = {High-performance web crawling},
-%  institution = {SRC Research Report 173, Compaq Systems Research},
-%  year = {2001},
-%  citeseerurl = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.21.7568},
-%  url = {ftp://gatekeeper.research.compaq.com/pub/DEC/SRC/research-reports/SRC-173.ps.gz}
-%}
-%
-%@INPROCEEDINGS{ShkapenyukSuel2002,
-%  author = {Vladislav Shkapenyuk and Torsten Suel},
-%  title = {Design and implementation of a high-performance distributed web crawler},
-%  booktitle = {In Proc. of the Int. Conf. on Data Engineering},
-%  year = {2002},
-%  pages = {357--368},
-%  citeseerurl = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.13.4762},
-%  url = {http://cis.poly.edu/~suel/papers/crawl.ps}
-%}
 
-\subsubsection{\label{sec:limitations}Limitations}
+\subsection{Storage and Control}
 
-html, utf, js, iframes
+database and web server. 
+
+\subsubsection{Web Server}
+
+small Python CGI scripts;
+provides per-corpora submission list,
+controls serving of random corpus pages;
+tutorial mode: visual diff after submit;
+ssl connections only;
+
+\subsubsection{Database}
+
+Raw HTML in sqlite3;
+user submissions are anonymized, but trackable by id;
+
+\subsubsection{Proxy}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{add}
+\caption{IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
+\end{figure}
 
 \subsection{Feature Extractors}
 
+app produces input files for pipelines, dumped in the filesystem, per-page with one line per dom text node;
+integrated dom feature extraction;
+integrated screen grab;
+
 \subsubsection{Text}
 
-Extract text data, one line per element, process externally.
+Dumped raw text, leading and trailing whitespace removed, UTF-8.
 
 \subsubsection{Meta Visual}
 
@@ -52,8 +59,12 @@ Use data from living DOM Tree in XUL App.
 \subsubsection{Visual}
 
 Screenshot and use JAMF as seen in \cite{Steger08}
+\footnote{This Extractor requires at least XULRunner Version 1.9.2 (corresponding to Firefox Version 3.5) which is still in beta at the time of this writing}
 
 \subsection{Machine Learner}
 
 Generic input vectors and classes from extractors
 
+\subsection{\label{sec:limitations}Highlights and Limitations}
+
+html, utf, js, iframes

@@ -9,24 +9,54 @@ Web business, boring stuff, more fun with KrdWrd
 \input{design}
 
 \section{Implementation}
+
+We maintain the implementation in a source code repository at \url{http://krdwrd.org}.
+The documentation includes pointers to required external software.
+
 \input{implementation}
 
 \section{Use Cases}
 
 \subsection{Cleaneval}
-\subsubsection{Data Acquisition}
+\subsubsection{Data Acquisition\label{datagather}}
 crawling simple
 
 students: fast, no probs with tool
 
 \subsubsection{Extraction Pipeline}
 
+runtime: 2.5 sec per page
+
 \subsubsection{Classification Results}
 
-\cite{libsvm}
+As a showcase, we used the data gathered in \ref{datagather} and trained a Support Vector Machine \cite{libsvm} using an RBF kernel.
+Total input were $44444$ features, trained in 10 fold cross
+
+\begin{table}
+\label{t:res}
+\jss{
+\caption{Classification Results for \textit{Canola} data set\\}}{
+\captionabove{Classification Results for {\it Canola} data set}}
+\jss{}{\sffamily\centering}
+\begin{tabular}[h]{l|c|rrr}
+Modules & \jss{Feat.}{Number of Features} & \jss{Acc.}{Accuracy} & \jss{Prec.}{Precision} & \jss{Recall}{Recall} \\
+\hline
+cl     & 23 & 88.86\% & 88.85\% & 36.01\% \\
+dom    & 10 & 89.48\% & 90.67\% & 39.02\% \\
+viz    &  5 & 0.00\%  &  0.00\% &  0.00\% \\
+cl dom& 33 & 95.78\% & 94.19\% & 39.90\% \\
+cl
+dom viz&  39 & 0.0\% & 0.0\% & 0.0\% \\
+\end{tabular}
+\end{table}
 
 \subsection{Future Work}
-can cure cancer.
+
+architecture:
+
+activate JavaScript, but hook into node create and clone processes.
+
+dont restart xul: named pipe for command dispatch
 
 \section{Conclusion}
 introduced, shown to work, now you get started.
