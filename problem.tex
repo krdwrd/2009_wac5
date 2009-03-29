@@ -1,8 +1,14 @@
-working on web data has 2 deficits at the mo:
+Working with algorithms that rely on user-annotated web content suffer from two major deficits:
 
 
-for the systems: web sites come as html, but to do useful stuff, we got to render them.
+For annotators, the presentation of web sites in the context of annotation tools usually does not match their everyday web experience.
+The lack or degeneration of non-textual context may negatively affect the annotators' performance
+and the learning requirements of special annotation tools may make it harder to find and motivate annotators in the first place.
 
 
-for the data: users dont get a nice environment for annotation - way to clumsy and far away from everyday surfing experience.
+Feature extraction on annotated web pages leaves much of the information encoded in the page unused,
+mainly those concerned with rendering.
 
+
+In this paper, we present the design (\ref{design}) and implementation (\ref{impl}) of the {\KrdWrd} architecture that adresses these two issues.
+Section \ref{casestudy} demonstrates a show-case in the context of the CleanEval challenge and Section \ref{conc} concludes with an outlook on possible applications and implementation improvements.

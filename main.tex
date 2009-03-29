@@ -1,36 +1,70 @@
+
 \begin{abstract}
-Web business, boring stuff, more fun with KrdWrd
+Algorithmic processing of web content mostly works on textual contents, neglecting visual information.
+Annotation tools mostly share this deficit as well.
+
+We specify requirements for an architecture to overcome both problems and propose an implementation, the \KrdWrd~system.
+It uses the Gecko rendering engine both for annotation and for feature extraction, providing unified data access in any processing step.
+Stable data storage and collaboration control scripts for group annotations of massive corpora are provided via a web interface coupled with a HTTP proxy.
+A modular interface allows plugging in feature extractors for linguistic and visual data.
+
+The implementation is suitable for many tasks in the web as corpus domain and beyond.
 \end{abstract}
 
 \section{Introduction}
 \input{problem}
 
-\section{Design}
+\section{Design\label{design}}
 \input{design}
 
-\section{Implementation}
+\section{Implementation\label{impl}}
 
 We maintain the implementation in a source code repository at \url{http://krdwrd.org}.
 The documentation includes pointers to required external software.
 
 \input{implementation}
 
-\section{Use Cases}
+\section{Case Study\label{casestudy}}
 
-\subsection{Cleaneval}
-\subsubsection{Data Acquisition\label{datagather}}
+Cleaneval
+
+\subsection{Data Acquisition\label{datagather}}
+
+We acquired a new corpus named \textit{Canola} 
 crawling simple
+
+\begin{table}
+\label{t:seed}
+\centering
+\jss{
+\caption{BootCaT seed terms for \textit{Canola} corpus}\bigskip}{
+\captionabove{BootCaT seed terms for \textit{Canola} corpus}\sffamily}
+\begin{tabular}[h]{ccc}
+        history
+&        coffee 
+&        salt \\
+        spices 
+&        trade road
+&        toll \\
+        metal
+&        silk 
+&        patrician \\
+        pirate 
+&        goods
+&        merchant 
+\end{tabular}
+\end{table}
 
 students: fast, no probs with tool
 
-\subsubsection{Extraction Pipeline}
+\subsection{Extraction Pipeline}
 
-runtime: 2.5 sec per page
+app runtime: 2.5 sec per page
 
-\subsubsection{Classification Results}
+\subsection{Classification Results}
 
-As a showcase, we used the data gathered in \ref{datagather} and trained a Support Vector Machine \cite{libsvm} using an RBF kernel.
-Total input were $44444$ features, trained in 10 fold cross
+As a showcase, we used the data gathered in \ref{datagather} and trained a Support Vector Machine \cite{libsvm} using an RBF kernel with optimal parameters determined by a simple grid search.
+The total number of feature vectors was $44444$. Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
 
 \begin{table}
 \label{t:res}
@@ -42,6 +76,7 @@ Total input were $44444$ features, trained in 10 fold cross
 Modules & \jss{Feat.}{Number of Features} & \jss{Acc.}{Accuracy} & \jss{Prec.}{Precision} & \jss{Recall}{Recall} \\
 \hline
 cl     & 23 & 88.86\% & 88.85\% & 36.01\% \\
+cl     & 21 & 84.84\% & 89.38\% & 63.07\% \\
 dom    & 10 & 89.48\% & 90.67\% & 39.02\% \\
 viz    &  5 & 0.00\%  &  0.00\% &  0.00\% \\
 cl dom& 33 & 95.78\% & 94.19\% & 39.90\% \\
@@ -49,6 +84,8 @@ cl
 dom viz&  39 & 0.0\% & 0.0\% & 0.0\% \\
 \end{tabular}
 \end{table}
+
+\section{Conclusion\label{conc}}
 
 \subsection{Future Work}
 
@@ -58,7 +95,8 @@ activate JavaScript, but hook into node create and clone processes.
 
 dont restart xul: named pipe for command dispatch
 
-\section{Conclusion}
+\subsection{Application}
+
 introduced, shown to work, now you get started.
 
 \review{

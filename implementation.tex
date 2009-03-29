@@ -8,16 +8,23 @@ We briefly checked on Presto (Opera) and Trident (Microsoft), but discarded them
 
 To avoid interference with other AddOns and existing configuration, we suggest creating a new browser profile for use with the AddOn.
 For easy use, Firefox' proxy configuration is automatically pointed to a preconfigured host and the user is directed to a special landing page upon successful installation.
-visual tagging, results
+Furthermore, the installation binary is digitaly signed, so the user does not have to go through various exception dialogs.
+
+
+Once installed, the functionality of the AddOn is available via a broom icon in the status bar.
+While it offers lots of functions around annotation and corpus selection, it's core feature is simple:
+In highlight mode (the broom turns fuchsia) mouse hovering over the page will highlight the text blocks below the cursor.
+The block can then be annotated using the context-menu or a keyboard short-cut, which will change its color to the one corresponding to the annotation class.
+Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{tut0}}
 	{\includegraphics[width=\textwidth]{tut0}}
-\caption{\label{f:tut0}Web pages can be annotated with the KrdWrd Firefox AddOn by hovering over the text by mouse and setting class labels by keyboard shortcut or pop-up menu}
+\caption{\label{f:tut0}Web pages can be annotated with the \KrdWrd Firefox AddOn by hovering over the text by mouse and setting class labels by keyboard short-cut or pop-up menu}
 \end{figure}
 
 
-\subsubsection{XUL Application}
+\subsubsection{XUL Application \label{app}}
 
 The XUL application (or \textit{app} for short) 
 Dumper, Grabber, Crawler
@@ -28,6 +35,9 @@ Dumper, Grabber, Crawler
 \subsection{Storage and Control}
 
 database and web server. 
+html hosted on own server, with baseurl; all other data through proxy; initially populated by the grabber described in \ref{app}.
+user annotations list of tags, one entry for every text node, in dom tree order;
+
 
 \subsubsection{Web Server}
 
