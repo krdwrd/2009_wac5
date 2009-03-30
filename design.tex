@@ -30,7 +30,29 @@ We also need to provide tools for learning how to use the annotation tool and ho
 
 \subsection{Core Architecture}
 
-The World Wide Web Consortium's DOM Standard \cite{dom} provides a unified for accessing attributes of a rendered web page.
+To address these requirements, we developed an abstract architecture, a simplified version of which is depicted in figure \ref{f:arch}.
+We will outline the rationale for the basic design decisions below.
+
+
+For rendering a web page, an object tree is constructed from its HTML source code.
+This tree can be traversed and its nodes inspected, modified, deleted and created through an API specified by the World Wide Web Consortium's (W3C) DOM Standard \cite{dom}.
+It's most popular use case is client-side dynamic manipulation of web pages, for visual effects and interactivity.
+This is most commonly done by accessing the DOM through a JavaScript interpreter.
+Essentially, a page's DOM tree allows access to all the information we set out to work on: structure, textual content and visual rendering data.
+We therefore make it the sole interface between application and data.
+
+While all browsers try to implement some part of the DOM standard (currently, version 3 is only partially implemented in most popular browsers), they vary greatly in their level of compliance as well as their ability to cope with non-standard compliant content.
+This leads to structural and visual differences between different browsers rendering the same web page.
+
+Therefore, to guarantee replicability, we require the same DOM engine to be used through the system.
+
+
+To reach a maximal level of automaticity, it is important that data processing can take place in a parallel fashion and does not require any kind of graphical interface, so it can be executed on server farms.
+On the other hand we also need to be able to present pages within a browser to allow for user annotation.
+Consequently, the same DOM engine needs to power a browser as well as a headless back-end application.
+
+
+
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{arch}}
