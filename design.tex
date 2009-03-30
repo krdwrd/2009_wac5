@@ -44,14 +44,19 @@ We therefore make it the sole interface between application and data.
 While all browsers try to implement some part of the DOM standard (currently, version 3 is only partially implemented in most popular browsers), they vary greatly in their level of compliance as well as their ability to cope with non-standard compliant content.
 This leads to structural and visual differences between different browsers rendering the same web page.
 
-Therefore, to guarantee replicability, we require the same DOM engine to be used through the system.
+Therefore, to guarantee \textit{replicability}, we require the same DOM engine to be used through the system.
 
 
-To reach a maximal level of automaticity, it is important that data processing can take place in a parallel fashion and does not require any kind of graphical interface, so it can be executed on server farms.
+To reach a maximal level of \textit{automaticity} and not to limit the \textit{quantity} of the data, it is important that data analysis can take place in a parallel fashion and does not require any kind of graphical interface, so it can e.g. be executed on server farms.
 On the other hand we also need to be able to present pages within a browser to allow for user annotation.
-Consequently, the same DOM engine needs to power a browser as well as a headless back-end application.
+
+Consequently, the same DOM engine needs to power a browser as well as a headless back-end application, with \textit{usability} being an important factor in the choice of a particular browser.
 
 
+\textit{Stability} of data sources is a major problem when dealing with web data.
+As we work on web pages and the elements contained in them, simple HTML dumping is not an option.
+Instead, we use a HTTP Proxy to cache web data used in our own storage.
+By setting the server to grab content only upon first request and providing a option to turn off download of new data, we can create a closed system that does not change anymore once populated.
 
 
 \begin{figure}
