@@ -1,5 +1,6 @@
 \subsection{DOM Engine}
 
+
 KHTML/WebKit (KDE, Apple), JavaScriptCore or V8 (Google);
 The Gecko engine (Mozilla Corporation) and it's JavaScript implementation Spidermonkey;
 We briefly checked on Presto (Opera) and Trident (Microsoft), but discarded them due to their proprietary nature.
@@ -34,6 +35,7 @@ Dumper, Grabber, Crawler
 
 \subsection{Storage and Control}
 
+
 database and web server. 
 html hosted on own server, with baseurl; all other data through proxy; initially populated by the grabber described in \ref{app}.
 user annotations list of tags, one entry for every text node, in dom tree order;
@@ -41,11 +43,13 @@ user annotations list of tags, one entry for every text node, in dom tree order;
 
 \subsubsection{Web Server}
 
-small Python CGI scripts;
-provides per-corpora submission list,
-controls serving of random corpus pages;
-tutorial mode: visual diff after submit;
-ssl connections only;
+Server-side logic is implemented by Python CGI scripts, so any web server capable of serving static files and executing CGI scripts is supported.
+Users can access the server directly by URL or via the Firefox Add-on menu.
+It provides a submission overview as well as a detailed per-corpus submission list.
+In conjunction with the Add-on, it controls serving of corpus pages by summing over submissions in the database and randomly selecting a page from those with the least total submission number.
+It also controls the tutorial: Users are presented with sample pages and asked to annotate them.
+Upon submission, the server compares the user's annotation with a reference annotation stored in the database and generates a page that highlights the differences.
+The result is delivered back to the user's browser as seen in figure \ref{tut1}.
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{tut1}}
@@ -56,10 +60,17 @@ ssl connections only;
 
 \subsubsection{Database}
 
-Raw HTML in sqlite3;
-user submissions are anonymized, but trackable by id;
+The database mainly stores the raw HTML code of the corpus pages.
+User submissions are vectors of annotation classes, the same length as the number of text nodes in a page.
+In addition there is a user mapping table that links internal user ids to external authentication.
+Thereby user submissions are anonymized, yet trackable by id.
+
+Given the simple structure of the database model, we choose to use zero-conf database backend \textit{sqlite}.
+This should scale up to some thousand corpus pages and users.
 
 \subsubsection{Proxy}
+
+Any object contained in the corpus pages needs to be stored and made available to viewers of the page without relying on the original Internet source.
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{add}}
@@ -69,22 +80,46 @@ user submissions are anonymized, but trackable by id;
 
 \subsection{Feature Extractors}
 
-app produces input files for pipelines, dumped in the filesystem, per-page with one line per dom text node;
-integrated dom feature extraction;
-integrated screen grab;
+The XUL Application extracts information from corpus pages and dumps it into the file-system, to serve as input to specialized feature extractors.
+This implementation focuses on feature extraction on those nodes carrying textual content, providing one feature vector per such node.
+We therefore generate one feature vector per such node through a linguistic, visual and DOM-tree focused pipeline.
 
 \subsubsection{Text}
 
-Dumped raw text, leading and trailing whitespace removed, UTF-8.
+For linguistic processing, the Application dumps raw text from the individual nodes, with leading and trailing whitespace removed, converted to UTF-8 where applicable.
+External applications can read these data and write back the feature vector resulting from their computation in the same format.
 
-\subsubsection{Meta Visual}
+\subsubsection{Structural}
 
-Use data from living DOM Tree in XUL App.
+During the Application run, a set of ``DOM-Features'' is directly generated and dumped as feature vector.
+
+Our reference implementation includes features such as depth in the DOM-tree, number of neighboring nodes, ratio text characters to html code characters,
+  and some generic document properties as number of links, images, embedded objects and anchors.
+We also provide a list of the types of node preceding the current node in the DOM-tree.
+
+Choosing the right DOM properties and apply the right scaling is a non-trivial per-application decision.
 
 \subsubsection{Visual}
 
-Screenshot and use JAMF as seen in \cite{Steger08}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{vizwrap}
+\caption{\label{f:vizwrap}Coordinates of a node's bounding box (straight) and text constituents (dottet) as provided to the visual processing pipeline.}
+\end{figure}
+
+For visual analysis, the Application provides full-document screenshots and coordinates of the bounding rectangles of all text nodes.%
 \footnote{This Extractor requires at least XULRunner Version 1.9.2 (corresponding to Firefox Version 3.5) which is still in beta at the time of this writing}
+When text is not rendered in one straight line, multiple bounding boxes are provided as seen in figure \ref{f:vizwrap}.
+This input can be processed by any application suitable for visual feature extraction.
+
+For simple statistics dealing with the coordinates of the bounding boxes, we use a simple Python script to generate basic features such as total area covered in pixel, number of text constituents, their variance in x-coordinates, avarage height and thelike.
+
+Furthermore, we provide a tool chain to use the JAMF framework \cite{Steger08}, a component-based client/server system for building and simulating visual attention models.
+The ``CoordRect'' JAMF component generates masks the same size of the web page screenshot based on the node coordinates.
+It therefore allows region-wise analysis of the page rendering with the default component set provided by JAMF, which is focused on visual feature extraction.
+Results are read by the JAMF Python client and converted into feature vectors on a per-node basis.
+
+Clearly, the components and filter of JAMF model employed or using an entirely different framework for actualy visual feature extraction are per-application decisions to be made.
+
 
 \subsection{Machine Learner}
 
