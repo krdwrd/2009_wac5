@@ -94,7 +94,7 @@ jamf demo graph
 \caption{The simple JAMF graph used for the case study}
 \end{figure}
 
-\subsection{Classification Results}
+\subsection{Inspecting Classifier Results}
 
 As a showcase, we used the data gathered in \ref{datagather} and trained a Support Vector Machine \cite{libsvm} using an RBF kernel with optimal parameters determined by a simple grid search.
 The total number of feature vectors was $44444$. Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
@@ -118,7 +118,15 @@ dom viz&  39 & 0.0\% & 0.0\% & 0.0\% \\
 \end{tabular}
 \end{table}
 
+The results can be back-projected into the DOM-trees using the Application.
+As in the tutorial for annotators, it produces a visual diff, showing where the classifier failed.
+Note that these results are just web pages, so they can be viewed anywhere without the help of the Add-on.
+
 \section{Conclusion\label{conc}}
+
+We have design and implemented an architecture for holistic treatment of web pages in classification tasks.
+We demonstrated that the KrdWrd system can be used to automatically build an annotated corpus from user submissions.
+We also showed its broad set of extractable features, text, structure and imagery, and their contribution to classification.
 
 \subsection{Future Work}
 

@@ -1,7 +1,18 @@
 \subsection{DOM Engine}
 
+The choice of DOM engine is central to the implementation.
+We reviewed all major engines available today with respect to the requirements listed in \ref{design}:
 
-KHTML/WebKit (KDE, Apple), JavaScriptCore or V8 (Google);
+The KDE Project's KHTML drives the Konquerer browser and some more exotic ones, but lacks a generic multi-platform build process.
+
+This practical limitation is liftet by Apple's fork of KHTML, called WebKit.
+It is the underlying engine of Safari browsers on Mac OS X and Windows. % and uses the JavaScriptCore.
+There also exists a Qt and a GTK based open source implementation.
+While they are quite immature at the moment and not very wildly used, this will change in the future and WepKit will certainly become a valueable option at some point.
+
+While the open source variant of Google's browser, \textit{chromium}, promises superior execution speed by coupling WebKit with it's own V8 JavaScript engine, it suffers from the same problem of not being stable enough yet to serve as reliable platform -
+The Linux client for example is barely usable, a Mac client does not exist yet.
+
 The Gecko engine (Mozilla Corporation) and it's JavaScript implementation Spidermonkey;
 We briefly checked on Presto (Opera) and Trident (Microsoft), but discarded them due to their proprietary nature.
 
