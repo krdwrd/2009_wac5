@@ -68,15 +68,11 @@ Thereby user submissions are anonymized, yet trackable by id.
 Given the simple structure of the database model, we choose to use zero-conf database backend \textit{sqlite}.
 This should scale up to some thousand corpus pages and users.
 
+It is important to note that any database content must be pre-processed to be encoded in utf-8 only.
+Unifing this bit of data representation at the very start is essential to avoid \textit{encoding hell} later in the process.
 \subsubsection{Proxy}
 
 Any object contained in the corpus pages needs to be stored and made available to viewers of the page without relying on the original Internet source.
-
-\begin{figure}
-\jss{\includegraphics[width=0.5\textwidth]{add}}
-	{\includegraphics[width=0.8\textwidth]{add}}
-\caption{IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
-\end{figure}
 
 \subsection{Feature Extractors}
 

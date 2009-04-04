@@ -26,12 +26,27 @@ The documentation includes pointers to required external software.
 
 \section{Case Study\label{casestudy}}
 
-Cleaneval
+We tested the implementation on a typical web-as-corpus task, including corpus creation, user annotation, feature extraction, traning a classifier and producing annotated test results.
 
 \subsection{Data Acquisition\label{datagather}}
 
-We acquired a new corpus named \textit{Canola} 
-crawling simple
+We acquired a new corpus named \textit{Canola} by using the BootCat tool to produce an URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
+
+To populate the proxy, we run the Application overy every URL once and also extracted the pages' text.
+We then filtered for text lengths between 500 and 5000 characters and run the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
+During this second pass, the proxy is switched to block access to external sources.
+This makes sure that no dynamic external content makes it into the corpus data, while letting innocent content pass.
+See figure \ref{f:iframes} for an example.
+
+\begin{figure}
+\jss{\includegraphics[width=0.5\textwidth]{add}}
+	{\includegraphics[width=0.8\textwidth]{add}}
+\caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
+\end{figure}
+
+The resulting HTML is post-processed to ensure references and encodings are consistent:
+The head tag is expanded by a \textbf{<base href="\textit{original url}" />} line, so a browser later viewing the dumped HTML will request embedded objects from their original URLs, which can then be served by the proxy.
+After removing any non-UTF-8 encoding hints, the data is fed into the database's page table, with a unique page id and the corpus id.
 
 \begin{table}
 \label{t:seed}
@@ -54,6 +69,11 @@ crawling simple
 &        merchant 
 \end{tabular}
 \end{table}
+
+For gathering annotation data, sixty students were asked to go through the 10 web page annotation tutorial once and then annotate at least 20 pages from the corpus as part of a lecture homework.
+They were provided documentation containing a ten-page manual for the Add-on and annotation guidelines.
+
+TODO: ens, some minimal stats here
 
 students: fast, no probs with tool
 
