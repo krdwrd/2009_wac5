@@ -141,16 +141,21 @@ For computing textual features, we stole Victors gut \cite{spoustamarekpecina200
 \subsection{Experiment}
 
 We used the data gathered by feature extraction for training a Support Vector Machine \cite{libsvm}.
-We used an RBF kernel with optimal parameters determined by a simple grid search on a per-pipeline basis.
+We used an RBF kernel with optimal parameters determined by a simple grid search to create ad-hoc models on a per-pipeline basis.
 The total number of feature vectors corresponded to the number of text nodes in the corpus and was 46575.
 Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
+
+Although the results for the single pipelines look quite promising - especially the visual pipeline performs surprisingly well given its limited input - combinations of feature sets in a single SVM model perform only marginally better.
+We therefore suggest running separate classifiers on the feature sets and only merging their results later, possibly in a weighted voting scheme.
+DOM features would certainly benefit most from e.g. a classifier that can work on structured data.
 
 \begin{table}
 \label{t:res}
 \jss{
-\caption{Classification Results for \textit{Canola} data set\\}}{
-\captionabove{Classification Results for {\it Canola} data set}}
-\jss{}{\sffamily\centering}
+\caption{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.}}{
+\captionabove{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.}
+\sffamily}
+\centering
 \begin{tabular}[h]{l|c|rrr}
 Modules & \jss{Feat.}{Number of Features} & \jss{Acc.}{Accuracy} & \jss{Prec.}{Precision} & \jss{Recall}{Recall} \\
 \hline
@@ -164,7 +169,6 @@ cl dom viz & 42 & 68\% & 76\% & 58\% \\
 \end{tabular}
 \end{table}
 
-(new results yet to come in here, wait with interpretation...)
 
 \subsection{Inspecting Classifier Results}
 
