@@ -77,19 +77,41 @@ After removing any non-UTF-8 encoding hints, the data is fed into the database's
 \caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
 \end{figure}
 
-For gathering annotation data, sixty students were asked to go through the 10 web page annotation tutorial once and then annotate at least 20 pages from the corpus as part of a lecture homework.
+For gathering annotation data, students were asked to go through the 10 web page annotation tutorial once and then annotate at pages from the \textit{Canola} corpus as part of a class assignment.
 They were provided documentation containing a ten-page manual for the Add-on and annotation guidelines.
 
-TODO: ens, some minimal stats here
+Over the course of two weeks, about 60 students submitted on average XX pages.
+As the time data in figure \ref{f:userstats} suggests, users learn quickly; 
+Average per-page annotation times drop below two minutes after some training.
+The tutorial with its 10 pages took on average 22 minutes to complete.
 
-students: fast, no probs with tool
+Integration of the Add-on in users' environments was flawless and we did not receive any reports about usability or general handling problems.
+Manual inspection of submissions also did not show any anomalies, to the contrary showed that submitters took great care in providing adequate annotations.
 
-merge
+\begin{figure}[h]
+\centering
+\jss{
+\includegraphics[width=0.4\textwidth]{timespentonpage}
+}{
+\includegraphics[width=0.5\textwidth]{timespentonpage}
+}
+\label{f:userstats}
+\caption{Time spent for annotation of a single web page across all annotators of the \textit{Canola} corpus.}
+\end{figure}
+
+The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f. \ref{merge}), resulting of a total of 216 corpus pages, each backed by up to 8 user submissions.
+Different treatment of JavaScript on the client side resulted in partial misalignment on some pages:
+dynamic client code had inserted or re-ordered nodes in some instance while not in others.
+We extended the merge procedure to accept some fuzziness in node matching, but still lost data from about 5\% of submissions that could not be re-aligned.
+Until this problem is solved, we recommend to turn off JavaScript for web content via the Firefox Add-On.
+Note that attaching unique IDs to text nodes is only a partial solution to this problem:
+A common JavaScript idiom is to clone an existing element and to populate it with new content, ultimately leading to different nodes with the same ``unique'' ID. 
+
 
 \subsection{Extraction Pipeline}
 
 Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtain from annotation. 
-For the \textit{Canola} corpus' 216 pages, it took $2.5sec$ on average to generate text (2.5m characters total), DOM information (46575 nodes total) and screen-shots (avg. size 997x4652px).
+For the \textit{Canola} corpus' 216 pages, it took 2.5sec on average to generate text (2.5m characters total), DOM information (46575 nodes total) and screen-shots (avg. size 997x4652px).
 
 We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f. figure \ref{f:jamfgraph}).
 For computing textual features, we stole Victors gut.
