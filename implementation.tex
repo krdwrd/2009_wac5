@@ -1,4 +1,4 @@
-\subsection{DOM Engine}
+\subsection{DOM Engine\label{dom}}
 
 The choice of DOM engine is central to the implementation.
 We reviewed all major engines available today with respect to the requirements listed in \ref{design}:
@@ -27,8 +27,10 @@ We note that WebKit's rise and fast pace of development might change that pictur
 
 \subsubsection{Firefox Add-on}
 
-To avoid interference with other add-ons and existing configuration, we suggest creating a new browser profile for use with the Add-on.
-For easy use, Firefox' proxy configuration is automatically pointed to a preconfigured host and the user is directed to a special landing page upon successful installation.
+Interactive visual annotation of corpus pages via web browser is realized by the {\KrdWrd} Firefox add-on.
+To facilitate adoption, it comes with a comprehensive user manual and an interactive tutorial (see below in \ref{webs}).
+For easy setup, Firefox' proxy configuration is automatically pointed to a preconfigured host, respective credentials are auto-added to the password manager and the user is directed to a special landing page upon successful installation.
+The proxy feature also serves as a nice example of code shared between add-on and application.
 Furthermore, the installation binary is digitaly signed, so the user does not have to go through various exception dialogs.
 
 
@@ -57,19 +59,17 @@ When the load complete event fires, one of several extraction routines is run an
 Implemented extration routines are 
 \begin{description}
 \item[grab] for simple HTML dumps and screen-shots,
+\item[diff] for computing a visual difference rendering of two annotation vectors for the same page,
 \item[merge] for merging different annotations on the same web page into one in a simple voting scheme, and
 \item[pipe] for textual, strutural and visual data for the feature pipelines.
 \end{description}
 
-% ens said: if you like:
-% \cite{NajorkHeydon2001,ShkapenyukSuel2002}
-
-\subsection{Storage and Control}
+\subsection{Storage and Control\label{server}}
 
 Central storage of web pages and annotation data is provided by a database.
 Clients access it via CGI scripts executed by a web server while the backend uses python wrapper scripts.
 
-\subsubsection{Web Server}
+\subsubsection{Web Server\label{webs}}
 
 Server-side logic is implemented by Python CGI scripts, so any web server capable of serving static files and executing CGI scripts is supported.
 Users can access the server directly by URL or via the Firefox Add-on menu.
@@ -103,7 +103,11 @@ Unifing this bit of data representation at the very start is essential to avoid 
 
 Any object contained in the corpus pages needs to be stored and made available to viewers of the page without relying on the original Internet source.
 
-\subsection{Feature Extractors}
+Given an URL list, initial population of the proxy data can easily be achieved by running the XUL application in grabbing mode while letting the proxy fetch external data.
+Afterwards, it can be switched to block that access, essentially creating a closed system.
+We found WWWOffle to be a suitable proxy with support for those features while still being easy to setup and maintain.
+
+\subsection{Feature Extractors\label{extract}}
 
 The XUL Application extracts information from corpus pages and dumps it into the file-system, to serve as input to specialized feature extractors.
 This implementation focuses on feature extraction on those nodes carrying textual content, providing one feature vector per such node.
@@ -146,10 +150,3 @@ Results are read by the JAMF Python client and converted into feature vectors on
 Clearly, the components and filter of JAMF model employed or using an entirely different framework for actualy visual feature extraction are per-application decisions to be made.
 
 
-\subsection{Machine Learner}
-
-Generic input vectors and classes from extractors
-
-\subsection{\label{sec:limitations}Highlights and Limitations}
-
-html, utf, js, iframes
