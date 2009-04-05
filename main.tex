@@ -38,7 +38,6 @@ The underlying data and programs are bundled with the {\KrdWrd} distribution as 
 We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce a URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
 
 \begin{table}
-\label{t:seed}
 \centering
 \jss{
 \caption{BootCaT seed terms for \textit{Canola} corpus}\bigskip}{
@@ -57,6 +56,7 @@ We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootca
 &        goods
 &        merchant 
 \end{tabular}
+\label{t:seed}
 \end{table}
 
 
@@ -95,8 +95,10 @@ Manual inspection of submissions also did not show any anomalies, to the contrar
 }{
 \includegraphics[width=0.8\textwidth]{timespentonpage}
 }
+\caption{
 \label{f:userstats}
-\caption{Time spent for annotation of a single Web page across all annotators of the \textit{Canola} corpus.}
+\label{ens1}
+	Time spent for annotation of a single Web page across all annotators of the \textit{Canola} corpus.}
 \end{figure}
 
 The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f. \ref{merge}), resulting in a total of 216 corpus pages, each backed by up to 8 user submissions.
@@ -114,8 +116,10 @@ A common JavaScript idiom is to clone an existing element and to populate it wit
 }{
 \includegraphics[width=0.8\textwidth]{agreementonpages}
 }
+\caption{
 \label{f:merge}
-\caption{Agreement between submissions for one page over the \textit{Canola} corpus.}
+\label{ens2}
+	Agreement between submissions for one page over the \textit{Canola} corpus.}
 \end{figure}
 
 
@@ -134,8 +138,9 @@ For computing textual features, we borrowed Victor's \cite{spoustamarekpecina200
 }{
 \includegraphics[width=0.6\textwidth]{jamfgraph}
 }
+\caption{
 \label{f:jamfgraph}
-\caption{The simple JAMF graph used for the case study}
+	The simple JAMF graph used for the case study}
 \end{figure}
 
 \subsection{Experiment}
@@ -150,10 +155,12 @@ We therefore suggest running separate classifiers on the feature sets and only m
 DOM features would certainly benefit most from e.g. a classifier that can work on structured data.
 
 \begin{table}
-\label{t:res}
 \jss{
-\caption{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.}}{
-\captionabove{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.}
+\caption{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.
+\label{t:res}
+}}{
+\captionabove{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.
+\label{t:res}}
 \sffamily}
 \centering
 \begin{tabular}[h]{l|c|rrr}
