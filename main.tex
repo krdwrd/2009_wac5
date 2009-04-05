@@ -27,6 +27,7 @@ The documentation includes pointers to required external software.
 \section{Case Study\label{casestudy}}
 
 We tested the implementation on a typical web-as-corpus task, including corpus creation, user annotation, feature extraction, traning a classifier and producing annotated test results.
+The underlying data and programs are bundled with the {\KrdWrd} distribution as usage example.
 
 \subsection{Data Acquisition\label{datagather}}
 
@@ -78,11 +79,14 @@ TODO: ens, some minimal stats here
 
 students: fast, no probs with tool
 
+merge
+
 \subsection{Extraction Pipeline}
 
-app runtime: 2.5 sec per page
+Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtain from annotation. 
+For the \textit{canola} corpus' 216 pages, it took $2.5sec$ on average to generate text (2.5m characters total), DOM information (46575 nodes total) and screen-shots (avg. size 997x4652px).
 
-jamf demo graph
+We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple 
 
 \begin{figure}[h]
 \centering
