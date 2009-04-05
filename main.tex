@@ -35,7 +35,7 @@ The underlying data and programs are bundled with the {\KrdWrd} distribution as 
 
 \subsection{Data Acquisition\label{datagather}}
 
-We acquired a new corpus named \textit{Canola} by using the BootCat tool to produce an URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
+We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce an URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
 
 \begin{table}
 \label{t:seed}
@@ -91,9 +91,9 @@ Manual inspection of submissions also did not show any anomalies, to the contrar
 \begin{figure}[h]
 \centering
 \jss{
-\includegraphics[width=0.4\textwidth]{timespentonpage}
-}{
 \includegraphics[width=0.5\textwidth]{timespentonpage}
+}{
+\includegraphics[width=0.8\textwidth]{timespentonpage}
 }
 \label{f:userstats}
 \caption{Time spent for annotation of a single web page across all annotators of the \textit{Canola} corpus.}
@@ -107,14 +107,25 @@ Until this problem is solved, we recommend to turn off JavaScript for web conten
 Note that attaching unique IDs to text nodes is only a partial solution to this problem:
 A common JavaScript idiom is to clone an existing element and to populate it with new content, ultimately leading to different nodes with the same ``unique'' ID. 
 
+\begin{figure}[h]
+\centering
+\jss{
+\includegraphics[width=0.5\textwidth]{agreementonpages}
+}{
+\includegraphics[width=0.8\textwidth]{agreementonpages}
+}
+\label{f:merge}
+\caption{Agreement between submissions for one page over the \textit{Canola} corpus.}
+\end{figure}
+
 
 \subsection{Extraction Pipeline}
 
 Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtain from annotation. 
-For the \textit{Canola} corpus' 216 pages, it took 2.5sec on average to generate text (2.5m characters total), DOM information (46575 nodes total) and screen-shots (avg. size 997x4652px).
+For the \textit{Canola} corpus' 216 pages, it took 2.5sec on average per page to generate text (2.5m characters total), DOM information (46575 nodes total), screen-shots (avg. size 997x4652px) and a file with the annotation target class for each text node.
 
 We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f. figure \ref{f:jamfgraph}).
-For computing textual features, we stole Victors gut.
+For computing textual features, we stole Victors gut \cite{spoustamarekpecina2008}.
 
 \begin{figure}[h]
 \centering
@@ -127,9 +138,10 @@ For computing textual features, we stole Victors gut.
 \caption{The simple JAMF graph used for the case study}
 \end{figure}
 
-\subsection{Inspecting Classifier Results}
+\subsection{Experiment}
 
-As a showcase, we used the data gathered in \ref{datagather} and trained a Support Vector Machine \cite{libsvm} using an RBF kernel with optimal parameters determined by a simple grid search.
+We used the data gathered by feature extraction for training a Support Vector Machine \cite{libsvm}.
+We used an RBF kernel with optimal parameters determined by a simple grid search on a per-pipeline basis.
 The total number of feature vectors corresponded to the number of text nodes in the corpus and was 46575.
 Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
 
@@ -152,9 +164,14 @@ cl dom viz & 42 & 68\% & 76\% & 58\% \\
 \end{tabular}
 \end{table}
 
-The results can be back-projected into the DOM-trees using the Application.
+(new results yet to come in here, wait with interpretation...)
+
+\subsection{Inspecting Classifier Results}
+
+The classification results can be back-projected into the DOM-trees using the Application's \textit{diff} function.
 As in the tutorial for annotators, it produces a visual diff, showing where the classifier failed.
 Note that these results are just web pages, so they can be viewed anywhere without the help of the Add-on.
+This quickly turned out to be a valuable tool in evaluation of classification results.
 
 \section{\label{sec:limitations}Conclusions\label{conc}}
 
@@ -182,7 +199,7 @@ We demonstrated that the KrdWrd system can be used to automatically build an ann
 We also showed its broad set of extractable features, text, structure and imagery, and their contribution to classification.
 
 \review{
-\section*{Acknowledgments}
+%\section*{Acknowledgments}
 
 }
 
