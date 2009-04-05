@@ -1,14 +1,14 @@
 
 \begin{abstract}
-Algorithmic processing of web content mostly works on textual contents, neglecting visual information.
+Algorithmic processing of Web content mostly works on textual contents, neglecting visual information.
 Annotation tools mostly share this deficit as well.
 
 We specify requirements for an architecture to overcome both problems and propose an implementation, the \KrdWrd~system.
 It uses the Gecko rendering engine both for annotation and for feature extraction, providing unified data access in any processing step.
-Stable data storage and collaboration control scripts for group annotations of massive corpora are provided via a web interface coupled with a HTTP proxy.
+Stable data storage and collaboration control scripts for group annotations of massive corpora are provided via a Web interface coupled with a HTTP proxy.
 A modular interface allows plugging in feature extractors for linguistic and visual data.
 
-The implementation is suitable for many tasks in the web as corpus domain and beyond.
+The implementation is suitable for many tasks in the Web as corpus domain and beyond.
 \end{abstract}
 
 \section{Introduction}
@@ -30,7 +30,7 @@ This section will first describe the DOM engine and its use by browser and backe
 
 \section{Case Study\label{casestudy}}
 
-We tested the implementation on a typical web-as-corpus task, including corpus creation, user annotation, feature extraction, traning a classifier and producing annotated test results.
+We tested the implementation on a typical Web-as-corpus task, including corpus creation, user annotation, feature extraction, traning a classifier and producing annotated test results.
 The underlying data and programs are bundled with the {\KrdWrd} distribution as usage example.
 
 \subsection{Data Acquisition\label{datagather}}
@@ -77,12 +77,12 @@ After removing any non-UTF-8 encoding hints, the data is fed into the database's
 \caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
 \end{figure}
 
-For gathering annotation data, students were asked to go through the 10 web page annotation tutorial once and then annotate at pages from the \textit{Canola} corpus as part of a class assignment.
+For gathering annotation data, students were asked to go through the 10 Web page annotation tutorial once and then annotate at pages from the \textit{Canola} corpus as part of a class assignment.
 They were provided documentation containing a ten-page manual for the Add-on and annotation guidelines.
 
 Over the course of two weeks, about 60 students provided a total average of 7.75 annotations per page.
 As the time data in figure \ref{f:userstats} suggests, users learn quickly; 
-Average per-page annotation times drop below two minutes after some training.
+Average per-page annotation times drop well below three minutes after some training.
 The tutorial with its 10 pages took on average 22 minutes to complete.
 
 Integration of the Add-on in users' environments was flawless and we did not receive any reports about usability or general handling problems.
@@ -96,14 +96,14 @@ Manual inspection of submissions also did not show any anomalies, to the contrar
 \includegraphics[width=0.8\textwidth]{timespentonpage}
 }
 \label{f:userstats}
-\caption{Time spent for annotation of a single web page across all annotators of the \textit{Canola} corpus.}
+\caption{Time spent for annotation of a single Web page across all annotators of the \textit{Canola} corpus.}
 \end{figure}
 
 The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f. \ref{merge}), resulting of a total of 216 corpus pages, each backed by up to 8 user submissions.
 Different treatment of JavaScript on the client side resulted in partial misalignment on some pages:
 dynamic client code had inserted or re-ordered nodes in some instance while not in others.
 We extended the merge procedure to accept some fuzziness in node matching, but still lost data from about 5\% of submissions that could not be re-aligned.
-Until this problem is solved, we recommend to turn off JavaScript for web content via the Firefox Add-On.
+Until this problem is solved, we recommend to turn off JavaScript for Web content via the Firefox Add-On.
 Note that attaching unique IDs to text nodes is only a partial solution to this problem:
 A common JavaScript idiom is to clone an existing element and to populate it with new content, ultimately leading to different nodes with the same ``unique'' ID. 
 
@@ -121,7 +121,7 @@ A common JavaScript idiom is to clone an existing element and to populate it wit
 
 \subsection{Extraction Pipeline}
 
-Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtain from annotation. 
+Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtained during annotation. 
 For the \textit{Canola} corpus' 216 pages, it took 2.5sec on average per page to generate text (2.5m characters total), DOM information (46575 nodes total), screen-shots (avg. size 997x4652px) and a file with the annotation target class for each text node.
 
 We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f. figure \ref{f:jamfgraph}).
@@ -174,14 +174,14 @@ cl dom viz & 42 & 68\% & 76\% & 58\% \\
 
 The classification results can be back-projected into the DOM-trees using the Application's \textit{diff} function.
 As in the tutorial for annotators, it produces a visual diff, showing where the classifier failed.
-Note that these results are just web pages, so they can be viewed anywhere without the help of the Add-on.
+Note that these results are just Web pages, so they can be viewed anywhere without the help of the Add-on.
 This quickly turned out to be a valuable tool in evaluation of classification results.
 
 \section{\label{sec:limitations}Conclusions\label{conc}}
 
 Employing {\KrdWrd} in the \textit{Canola} case study showed that we achieved what we set out for and gave some valuable experience for possible improvements:
 
-The {\KrdWrd} Firefox Add-On is the first tool for web page annotation that integrates flawlessly into a users daily browsing experience.
+The {\KrdWrd} Firefox Add-On is the first tool for Web page annotation that integrates flawlessly into a users daily browsing experience.
 It is unobstrusive and has a simple and intuitive user interface.
 Users quickly learn how to annotate and produce quite uniform results, given sufficient annotation guidelines.
 
@@ -198,7 +198,7 @@ Showing results from separate runs on different subsets of the data or different
 Presenting selected feature values per node might also help in developing new feature extractors, especially in the DOM context.
 
 
-Summarizing, we have designed and implemented an architecture for holistic treatment of web pages in classification tasks.
+Summarizing, we have designed and implemented an architecture for holistic treatment of Web pages in classification tasks.
 We demonstrated that the KrdWrd system can be used to automatically build an annotated corpus from user submissions.
 We also showed its broad set of extractable features, text, structure and imagery, and their contribution to classification.
 

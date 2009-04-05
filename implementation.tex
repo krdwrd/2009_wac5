@@ -27,7 +27,7 @@ We note that WebKit's rise and fast pace of development might change that pictur
 
 \subsubsection{Firefox Add-on}
 
-Interactive visual annotation of corpus pages via web browser is realized by the {\KrdWrd} Firefox add-on.
+Interactive visual annotation of corpus pages via Web browser is realized by the {\KrdWrd} Firefox add-on.
 To facilitate adoption, it comes with a comprehensive user manual and an interactive tutorial (see below in \ref{webs}).
 For easy setup, Firefox' proxy configuration is automatically pointed to a preconfigured host, respective credentials are auto-added to the password manager and the user is directed to a special landing page upon successful installation.
 The proxy feature also serves as a nice example of code shared between add-on and application.
@@ -50,7 +50,7 @@ Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
 \subsubsection{XUL Application \label{app}}
 
 The XUL application consists of a thin JavaScript layer on top of Mozilla's XUL Runner.
-It mainly uses the XUL browser control to load and render web pages and hooks into its event handlers to catch completed page load events and thelike.
+It mainly uses the XUL browser control to load and render Web pages and hooks into its event handlers to catch completed page load events and thelike.
 Without greater C level patching, XUL still needs to create a window for all its features to work.
 In server applications, we suggest using a virtual display such as Xvfb to fullfil that reqirement.
 
@@ -60,18 +60,18 @@ Implemented extration routines are
 \begin{description}
 \item[grab] for simple HTML dumps and screen-shots,
 \item[diff] for computing a visual difference rendering of two annotation vectors for the same page,
-\item[merge\label{merge}] for merging different annotations on the same web page into one in a simple voting scheme, and
+\item[merge\label{merge}] for merging different annotations on the same Web page into one in a simple voting scheme, and
 \item[pipe] for textual, strutural and visual data for the feature pipelines.
 \end{description}
 
 \subsection{Storage and Control\label{server}}
 
-Central storage of web pages and annotation data is provided by a database.
-Clients access it via CGI scripts executed by a web server while the backend uses python wrapper scripts.
+Central storage of Web pages and annotation data is provided by a database.
+Clients access it via CGI scripts executed by a Web server while the backend uses python wrapper scripts.
 
 \subsubsection{Web Server\label{webs}}
 
-Server-side logic is implemented by Python CGI scripts, so any web server capable of serving static files and executing CGI scripts is supported.
+Server-side logic is implemented by Python CGI scripts, so any Web server capable of serving static files and executing CGI scripts is supported.
 Users can access the server directly by URL or via the Firefox Add-on menu.
 It provides a submission overview as well as a detailed per-corpus submission list.
 In conjunction with the Add-on, it controls serving of corpus pages by summing over submissions in the database and randomly selecting a page from those with the least total submission number.
@@ -143,7 +143,7 @@ This input can be processed by any application suitable for visual feature extra
 For simple statistics dealing with the coordinates of the bounding boxes, we use a simple Python script to generate basic features such as total area covered in pixel, number of text constituents, their variance in x-coordinates, avarage height and thelike.
 
 Furthermore, we provide a tool chain to use the JAMF framework \cite{Steger08}, a component-based client/server system for building and simulating visual attention models.
-The ``CoordRect'' JAMF component generates masks the same size of the web page screenshot based on the node coordinates.
+The ``CoordRect'' JAMF component generates masks the same size of the Web page screenshot based on the node coordinates.
 It therefore allows region-wise analysis of the page rendering with the default component set provided by JAMF, which is focused on visual feature extraction.
 Results are read by the JAMF Python client and converted into feature vectors on a per-node basis.
 
