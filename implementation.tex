@@ -41,16 +41,25 @@ Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{tut0}}
 	{\includegraphics[width=0.8\textwidth]{tut0}}
-\caption{\label{f:tut0}Web pages can be annotated with the \KrdWrd Firefox Add-on by hovering over the text by mouse and setting class labels by keyboard short-cut or pop-up menu}
+\caption{\label{f:tut0}Web pages can be annotated with the {\KrdWrd} Firefox Add-on by hovering over the text by mouse and setting class labels by keyboard short-cut or pop-up menu}
 \end{figure}
 
 
 \subsubsection{XUL Application \label{app}}
 
+The XUL application consists of a thin JavaScript layer on top of Mozilla's XUL Runner.
+It mainly uses the XUL browser control to load and render web pages and hooks into its event handlers to catch completed page load events and thelike.
+Without greater C level patching, XUL still needs to create a window for all its features to work.
+In server applications, we suggest using a virtual display such as Xvfb to fullfil that reqirement.
 
-
-The XUL application (or \textit{app} for short) 
-Dumper, Grabber, Crawler
+In operation the application parses the commandline given, which triggers loading of supplied URLs (local or remote) in dedicated browser widgets.
+When the load complete event fires, one of several extraction routines is run and results written back to disk.
+Implemented extration routines are 
+\begin{description}
+\item[grab] for simple HTML dumps and screen-shots,
+\item[merge] for merging different annotations on the same web page into one in a simple voting scheme, and
+\item[pipe] for textual, strutural and visual data for the feature pipelines.
+\end{description}
 
 % ens said: if you like:
 % \cite{NajorkHeydon2001,ShkapenyukSuel2002}
