@@ -159,14 +159,16 @@ DOM features would certainly benefit most from e.g. a classifier that can work o
 \begin{tabular}[h]{l|c|rrr}
 Modules & \jss{Feat.}{Number of Features} & \jss{Acc.}{Accuracy} & \jss{Prec.}{Precision} & \jss{Recall}{Recall} \\
 \hline
-cl         & 21 & 84\% & 60\% & 70\% \\
-dom        & 13 & 65\% & 64\% & 56\% \\
-viz        &  8 & 86\% & 64\% & 82\% \\
-cl dom     & 34 & 67\% & 74\% & 57\% \\
-dom viz    & 21 & 67\% & 72\% & 59\% \\
-cl viz     & 29 & 85\% & 60\% & 74\% \\
+cl         & 21 & 86\% & 61\% & 76\% \\
+dom *      & 13 & 65\% & 64\% & 56\% \\
+viz *      &  8 & 86\% & 64\% & 82\% \\
+cl dom *   & 34 & 67\% & 74\% & 57\% \\
+dom viz *  & 21 & 67\% & 72\% & 59\% \\
+cl viz     & 29 & 86\% & 63\% & 78\% \\
 cl dom viz & 42 & 68\% & 76\% & 58\% \\
 \end{tabular}
+
+* data obtained by training on reduced number of input vectors.
 \end{table}
 
 
@@ -177,7 +179,7 @@ As in the tutorial for annotators, it produces a visual diff, showing where the 
 Note that these results are just Web pages, so they can be viewed anywhere without the help of the Add-on.
 This quickly turned out to be a valuable tool in evaluation of classification results.
 
-\section{\label{sec:limitations}Conclusions\label{conc}}
+\section{\label{sec:limitations}Conclusion\label{conc}}
 
 Employing {\KrdWrd} in the \textit{Canola} case study showed that we achieved what we set out for and gave some valuable experience for possible improvements:
 
