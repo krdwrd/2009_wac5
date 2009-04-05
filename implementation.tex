@@ -47,6 +47,8 @@ Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
 
 \subsubsection{XUL Application \label{app}}
 
+
+
 The XUL application (or \textit{app} for short) 
 Dumper, Grabber, Crawler
 
@@ -55,11 +57,8 @@ Dumper, Grabber, Crawler
 
 \subsection{Storage and Control}
 
-
-database and web server. 
-html hosted on own server, with baseurl; all other data through proxy; initially populated by the grabber described in \ref{app}.
-user annotations list of tags, one entry for every text node, in dom tree order;
-
+Central storage of web pages and annotation data is provided by a database.
+Clients access it via CGI scripts executed by a web server while the backend uses python wrapper scripts.
 
 \subsubsection{Web Server}
 
@@ -67,9 +66,10 @@ Server-side logic is implemented by Python CGI scripts, so any web server capabl
 Users can access the server directly by URL or via the Firefox Add-on menu.
 It provides a submission overview as well as a detailed per-corpus submission list.
 In conjunction with the Add-on, it controls serving of corpus pages by summing over submissions in the database and randomly selecting a page from those with the least total submission number.
-It also controls the tutorial: Users are presented with sample pages and asked to annotate them.
-Upon submission, the server compares the user's annotation with a reference annotation stored in the database and generates a page that highlights the differences.
-The result is delivered back to the user's browser as seen in figure \ref{tut1}.
+It also serveres the actual HTML data, whereas any embedded objects are served by the separate proxy server.
+Furthermore, it controls the tutorial: Users are presented with sample pages and asked to annotate them.
+Upon submission, the server compares the user's annotation with a reference annotation stored in the database and generates a page that highlights differences.
+The result is delivered back to the user's browser as seen in figure \ref{f:tut1}.
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{tut1}}
