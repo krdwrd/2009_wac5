@@ -4,9 +4,9 @@ Algorithmic processing of Web content mostly works on textual contents, neglecti
 Annotation tools mostly share this deficit as well.
 
 We specify requirements for an architecture to overcome both problems and propose an implementation, the \KrdWrd~system.
-It uses the Gecko rendering engine for both annotation and feature extraction, providing unified data access in any processing step.
+It uses the Gecko rendering engine for both annotation and feature extraction, providing unified data access in every processing step.
 Stable data storage and collaboration control scripts for group annotations of massive corpora are provided via a Web interface coupled with a HTTP proxy.
-A modular interface allows plugin feature extractors for linguistic and visual data.
+A modular interface allows for linguistic and visual data feature extractor plugins.
 
 The implementation is suitable for many tasks in the \textit{Web as corpus} domain and beyond.
 \end{abstract}
@@ -22,8 +22,8 @@ The implementation is suitable for many tasks in the \textit{Web as corpus} doma
 We maintain the implementation in a source code repository at \url{http://krdwrd.org}.
 The documentation includes pointers to the required external software.
 
-This section will first describe the DOM engine and its use by browser and back-end application (\ref{dom}).
-\ref{server} details the implementation of central storage and control and \ref{extract} lists possible feature extractors for the back-end.
+This section will first describe the DOM engine and its use by browser and back-end application (\ref{dom}),
+then the details of the implementation of central storage and control (\ref{server}), and will end with listing possible feature extractors for the back-end (\ref{extract}).
 
 
 \input{implementation}
@@ -61,7 +61,7 @@ We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootca
 
 
 To populate the proxy, we ran the Application on every URL once and also extracted the pages' text.
-We then filtered for text lengths between 500 and 5000 characters and ran the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
+We then filtered for text lengths between 500 and 6,000 characters and ran the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
 During this second pass, the proxy is switched to block access to external sources.
 This ensures that no dynamic external content makes it into the corpus data, while letting innocent content pass.
 See figure \ref{f:iframes} for an example.
@@ -74,7 +74,7 @@ After removing any non-UTF-8 encoding hints, the data is fed into the database's
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{add}}
 	{\includegraphics[width=0.8\textwidth]{add}}
-\caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup}
+\caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup.}
 \end{figure}
 
 For gathering annotation data, students were asked to go through the ten Web page annotation tutorial once and then annotate pages from the \textit{Canola} corpus as part of a class assignment.
@@ -140,17 +140,17 @@ For computing textual features, we borrowed Victor's \cite{spoustamarekpecina200
 }
 \caption{
 \label{f:jamfgraph}
-	The simple JAMF graph used for the case study}
+	The simple JAMF graph used for the case study.}
 \end{figure}
 
 \subsection{Experiment}
 
-We used the data gathered by feature extraction for training a Support Vector Machine \cite{libsvm}.
+We used the data gathered by the feature extraction for training a Support Vector Machine \cite{libsvm}.
 We used an RBF kernel with optimal parameters determined by a simple grid search to create ad-hoc models on a per-pipeline basis.
 The total number of feature vectors corresponded to the number of text nodes in the corpus and was 46575.
 Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
 
-Although the results for the single pipelines look quite promising - especially the visual pipeline performed surprisingly well given its limited input - combinations of feature sets in a single SVM model perform only marginally better.
+Although the results for the single pipelines look quite promising -- especially the visual pipeline performed surprisingly well given its limited input -- combinations of feature sets in a single SVM model perform only marginally better.
 We therefore suggest running separate classifiers on the feature sets and only merging their results later, possibly in a weighted voting scheme.
 DOM features would certainly benefit most from e.g. a classifier that can work on structured data.
 
@@ -208,8 +208,8 @@ Presenting selected feature values per node might also help in developing new fe
 
 
 Summarizing, we designed and implemented an architecture for holistic treatment of Web pages in classification tasks.
-We demonstrated that the KrdWrd system can be used to automatically build an annotated corpus from user submissions.
-We also showed the broad set of features for text, structure and imagery it can help extract and how their contribution to classification can be assessed graphically.
+We demonstrated that the {\KrdWrd} system can be used to automatically build an annotated corpus from user submissions.
+We also showed the broad set of features for text, structure and imagery it can help to extract, and how their contribution to classification can be assessed graphically.
 
 \review{
 %\section*{Acknowledgments}
