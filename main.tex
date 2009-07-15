@@ -101,7 +101,7 @@ Manual inspection of submissions also did not show any anomalies, to the contrar
 	Time spent for annotation of a single Web page across all annotators of the \textit{Canola} corpus.}
 \end{figure}
 
-The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f. \ref{merge}), resulting in a total of 216 corpus pages, each backed by up to 8 user submissions.
+The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f.~\ref{merge}), resulting in a total of 216 corpus pages, each backed by up to 8 user submissions.
 Different treatment of JavaScript on the client side resulted in partial misalignment on some pages:
 dynamic client code had inserted or re-ordered nodes in some instance while not in others.
 We extended the merge procedure to accept some fuzziness in node matching, but still lost data from about 5\% of submissions that could not be re-aligned.
@@ -126,9 +126,9 @@ A common JavaScript idiom is to clone an existing element and to populate it wit
 \subsection{Extraction Pipeline}
 
 Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtained during annotation. 
-For the \textit{Canola} corpus' 216 pages, it took 2.5 seconds on average per page to generate text (2.5 million characters total), DOM information (46575 nodes total), screen-shots (avg. size 997x4652 pixels) and a file with the annotation target class for each text node.
+For the \textit{Canola} corpus' 216 pages, it took 2.5 seconds on average per page to generate text (2.5 million characters total), DOM information (46575 nodes total), screen-shots (avg.~size 997x4652 pixels) and a file with the annotation target class for each text node.
 
-We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f. figure \ref{f:jamfgraph}).
+We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f.~figure \ref{f:jamfgraph}).
 For computing textual features, we borrowed Victor's \cite{spoustamarekpecina2008} text feature extractor.
 
 \begin{figure}[h]
@@ -152,7 +152,7 @@ Vector lengths for the different pipelines and test results from 10-fold cross v
 
 Although the results for the single pipelines look quite promising -- especially the visual pipeline performed surprisingly well given its limited input -- combinations of feature sets in a single SVM model perform only marginally better.
 We therefore suggest running separate classifiers on the feature sets and only merging their results later, possibly in a weighted voting scheme.
-DOM features would certainly benefit most from e.g. a classifier that can work on structured data.
+DOM features would certainly benefit most from e.g.~a classifier that can work on structured data.
 
 \begin{table}
 \jss{

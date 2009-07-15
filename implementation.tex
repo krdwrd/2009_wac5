@@ -17,7 +17,7 @@ We also briefly checked on Presto (Opera) and Trident (Microsoft), but discarded
 
 The Gecko engine (Mozilla Corporation) in conjunction with its JavaScript implementation Spidermonkey marks a special case:
 It implements XUL \cite{xul}, the XML User Interface Language, as a way to create feature rich cross-platform applications.
-The most prominent of those is the Firefox browser, but also e.g. Thunderbird, Sunbird and Flock are built with XUL.
+The most prominent of those is the Firefox browser, but also e.g.~Thunderbird, Sunbird and Flock are built with XUL.
 An add-on system is provided that allows extending the functionality of XUL applications to third-party code that gains full access to the DOM representation, including the XUL part itself.
 The proposed {\KrdWrd} back-end can be implemented in the same manner as Firefox: provide custom JavaScript and XUL code on top of Mozilla's core XUL Runner. 
 Code can easily be shared between a browser add-on and XUL applications and unsupervised operation is trivial to implement in a XUL program.
