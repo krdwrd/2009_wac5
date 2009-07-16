@@ -61,7 +61,7 @@ It mainly uses the XUL browser control to load and render Web pages and hooks in
 Without greater C level patching, XUL still needs to create a window for all of its features to work.
 In server applications, we suggest using a virtual display such as Xvfb to fulfil this requirement.
 
-In operation the application parses the command-line given, which triggers the loading of supplied URLs (local or remote) in dedicated browser widgets.
+In operation the application parses the given command-line arguments, which triggers the loading of supplied URLs (local or remote) in dedicated browser widgets.
 When the ``load complete'' event fires, one of several extraction routines is run and results are written back to disk.
 The implemented extraction routines are 
 \begin{description}
@@ -91,7 +91,7 @@ The result is delivered back to the user's browser as seen in figure \ref{f:tut1
 \jss{\includegraphics[width=0.5\textwidth]{tut1}}
 	{\includegraphics[width=0.8\textwidth]{tut1}}
 \caption{\label{f:tut1}During the tutorial, a Visual Diff between the user's submission and the sample data is presented right after submission.
-	Here, the annotation from \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback.}
+	Here, the annotation from Figure \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback in dark color -- contrary to the heading ``Information Technology Services Support'' that was tagged correctly and hence, shows up in light color.}
 \end{figure}
 
 \subsubsection{Database}
