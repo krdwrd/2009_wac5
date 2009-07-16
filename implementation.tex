@@ -59,7 +59,7 @@ Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
 The XUL application consists of a thin JavaScript layer on top of Mozilla's XUL Runner.
 It mainly uses the XUL browser control to load and render Web pages and hooks into its event handlers to catch completed page load events and the-like.
 Without greater C level patching, XUL still needs to create a window for all of its features to work.
-In server applications, we suggest using a virtual display such as Xvfb to fulfil this requirement.
+In server applications, we suggest using a virtual display such as Xvfb to fulfill this requirement.
 
 In operation the application parses the given command-line arguments, which triggers the loading of supplied URLs (local or remote) in dedicated browser widgets.
 When the ``load complete'' event fires, one of several extraction routines is run and results are written back to disk.
@@ -127,6 +127,12 @@ We therefore generate one feature vector per such node through a linguistic, vis
 
 For linguistic processing, the Application dumps raw text from the individual nodes, with leading and trailing whitespace removed, converted to UTF-8 where applicable.
 External applications can read these data and write back the feature vector resulting from their computation in the same format.
+
+For Computational Linguistic tools relying on phrase-level structured input,
+e.g.~tokenizers,
+the Application can also dump raw text that more closely resembles the rendered output,
+i.e.~paragraphs, spanning multiple nodes, are merged together and dumped in one line;
+each line -- and hence, feature vector -- is then duplicated as many times as nodes that are spanned.
 
 \subsubsection{Structural}
 
