@@ -128,20 +128,8 @@ A common JavaScript idiom is to clone an existing element and to populate it wit
 Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtained during annotation. 
 For the \textit{Canola} corpus' 216 pages, it took 2.5 seconds on average per page to generate text (2.5 million characters total), DOM information (46575 nodes total), screen-shots (avg.~size 997x4652 pixels) and a file with the annotation target class for each text node.
 
-We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline, with a simple JAMF graph as a showcase (c.f.~figure \ref{f:jamfgraph}).
+We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline.
 For computing textual features, we borrowed Victor's \cite{spoustamarekpecina2008} text feature extractor.
-
-\begin{figure}[h]
-\centering
-\jss{
-\includegraphics[width=0.4\textwidth]{jamfgraph}
-}{
-\includegraphics[width=0.6\textwidth]{jamfgraph}
-}
-\caption{
-\label{f:jamfgraph}
-	The simple JAMF graph used for the case study.}
-\end{figure}
 
 \subsection{Experiment}
 
@@ -197,7 +185,6 @@ Users quickly learn how to annotate and produce quite uniform results, given suf
 The {\KrdWrd} application and supporting infrastructure are a reliable platform under a real-world usage scenario.
 By decoding any input data to UTF-8 at the moment it enters the system and ensuring that we explicitly deliver UTF-8 exclusively throughout the system, we circumvented all usual encoding problems.
 
-
 The overall handling of JavaScript is not satisfactory.
 To address the diversions between submits occurring after dynamic client-side JavaScript execution on different clients, the Add-on could hook into the node creation and clone processes.
 They could be suppressed entirely or newly created nodes could grow a special id tag to help identifying them later.
@@ -206,6 +193,8 @@ For result analysis, we would like to expand the visual diff generated from clas
 Showing results from separate runs on different subsets of the data or different parameters on one page would facilitate manual data inspection.
 Presenting selected feature values per node might also help in developing new feature extractors, especially in the DOM context.
 
+Furthermore, we would like to integrate the JAMF framework \cite{Steger08}, a component-based client/server system for building and simulating visual attention models, into the tool chain.
+This would allow for features based on the analysis of the rendered pages akin to how humans perceive these pages while browsing.
 
 Summarizing, we designed and implemented an architecture for holistic treatment of Web pages in classification tasks.
 We demonstrated that the {\KrdWrd} system can be used to automatically build an annotated corpus from user submissions.

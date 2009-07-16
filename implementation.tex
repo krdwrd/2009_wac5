@@ -158,11 +158,3 @@ This input can be processed by any application suitable for visual feature extra
 
 For simple statistics dealing with the coordinates of the bounding boxes, we use a simple Python script to generate basic features such as total area covered in pixel, number of text constituents, their variance in x-coordinates, average height and the-like.
 
-Furthermore, we provide a tool chain to use the JAMF framework \cite{Steger08}, a component-based client/server system for building and simulating visual attention models.
-The ``CoordRect'' JAMF component generates masks the same size as the Web page screen-shot based on the node coordinates.
-It therefore allows region-wise analysis of the page rendering with the default component set provided by JAMF, which is focused on visual feature extraction.
-Results are read by the JAMF Python client and converted into feature vectors on a per-node basis.
-
-Clearly, the components and filter of JAMF model employed or using an entirely different framework for actually visual feature extraction are per-application decisions to be made.
-
-
