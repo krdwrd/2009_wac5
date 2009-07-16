@@ -30,12 +30,23 @@ then the details of the implementation of central storage and control (\ref{serv
 
 \section{Case Study\label{casestudy}}
 
-We tested the implementation on a typical Web-as-corpus task, including corpus creation, user annotation, feature extraction, training a classifier and producing annotated test results.
-The underlying data and programs are bundled with the {\KrdWrd} distribution as usage example.
+The current implementation comprises an extensive system for pre-processing and automated cleaning of Web pages,
+i.e.~a typical Web-as-corpus task, 
+where users are provided with accurate Web page presentations and annotation utilities in a typical browsing environment,
+while supervised machine learning algorithms also operate on representations of the visual rendering of Web pages. 
+
+The sequence of steps includes
+corpus creation and acquisition of hand-annotated training data on that corpus (\ref{datagather}), 
+feature extraction (\ref{extrapipe}), 
+training of a classifier and producing annotated test results (\ref{experiment}).
+
+The underlying data, tools, and programs are bundled with the {\KrdWrd} distribution as usage example.
+
 
 \subsection{Data Acquisition\label{datagather}}
 
-We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce a URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
+Gathering a set of sample pages is at the beginning of having people tag new data.
+Therefore, we acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce a URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
 
 \begin{table}
 \centering
@@ -59,13 +70,11 @@ We acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootca
 \label{t:seed}
 \end{table}
 
-
-To populate the proxy, we ran the Application on every URL once and also extracted the pages' text.
-We then filtered for text lengths between 500 and 6,000 characters and ran the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
+To populate the proxy, we ran the Application on every URL once and also extracted the textual content of the pages.
+We then filtered for text lengths between 500 and 6,000 characters \footnote{\ldots for Chinese these numbers had to be cut down to 50 and 600, however.} and ran the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
 During this second pass, the proxy is switched to block access to external sources.
 This ensures that no dynamic external content makes it into the corpus data, while letting innocent content pass.
 See figure \ref{f:iframes} for an example.
-
 
 The resulting HTML is post-processed to ensure that references and encodings are consistent:
 The head tag is expanded by a \texttt{<base href="\textit{original url}" />} line, so a browser later viewing the dumped HTML will request embedded objects by their original URLs, which can then be served by the proxy.
@@ -77,16 +86,22 @@ After removing any non-UTF-8 encoding hints, the data is fed into the database's
 \caption{\label{f:iframes}IFrames with dynamic URLs which usually come from advertisements are blocked as a nice side-effect of the Proxy setup.}
 \end{figure}
 
-For gathering annotation data, students were asked to go through the ten Web page annotation tutorial once and then annotate pages from the \textit{Canola} corpus as part of a class assignment.
-They were provided documentation containing a ten-page manual for the Add-on and annotation guidelines.
+The pre-processed data is now ready to be processed by annotators.
+For gathering training data, students were asked to go through the ten Web page annotation tutorial once
+-- to get acquainted with the annotation tool, i.e.~the Add-on, and different aspects of how to apply the guidelines 
+\footnote{A refined version of the official `CLEANEVAL: Guidelines for annotators' \url{http://cleaneval.sigwac.org.uk/annotation_guidelines.html} available at \url{https://krdwrd.org/manual/html}.}
+to real-world Web pages -- 
+and then annotate pages from the \textit{Canola} corpus as part of an homework assignment.
+The annotation process consisted of tagging text on Web pages with \emph{three} tags `good', `bad', and `uncertain'.
 
 Over the course of two weeks, about 60 students provided a total average of 7.75 annotations per page.
 As the time data in figure \ref{f:userstats} suggests, users learn quickly; 
 Average per-page annotation times drop well below three minutes after some training.
-The tutorial with its 10 pages took on average 22 minutes to complete.
+The tutorial with its ten pages took on average 22 minutes to complete;
+note however, these pages were shortened and stripped down to illustrate particular aspects of Web pages.
 
 Integration of the Add-on in users' environments was flawless and we did not receive any reports about usability or general handling problems.
-Manual inspection of submissions also did not show any anomalies, to the contrary, indicated that submitters took great care to provide adequate annotations.
+Manual inspection of submissions also did not show any anomalies but to the contrary, indicated that submitters took great care to provide adequate annotations (c.f.~figure \ref{f:merge}).
 
 \begin{figure}[h]
 \centering
@@ -105,7 +120,7 @@ The data obtained from user annotations was next merged into a single corpus usi
 Different treatment of JavaScript on the client side resulted in partial misalignment on some pages:
 dynamic client code had inserted or re-ordered nodes in some instance while not in others.
 We extended the merge procedure to accept some fuzziness in node matching, but still lost data from about 5\% of submissions that could not be re-aligned.
-Until this problem is solved, we recommend turning off JavaScript for Web content via the Firefox Add-On.
+Until this problem is solved, we turn off JavaScript for Web content via the Firefox Add-On.
 Note that attaching unique IDs to text nodes is only a partial solution to this problem:
 A common JavaScript idiom is to clone an existing element and to populate it with new content, ultimately leading to different nodes with the same ``unique'' ID. 
 
@@ -119,11 +134,11 @@ A common JavaScript idiom is to clone an existing element and to populate it wit
 \caption{
 \label{f:merge}
 \label{ens2}
-	Agreement between submissions for pages over the \textit{Canola} corpus.}
+	 Fleiss's multi-$\pi$ agreement \cite{artsteinpoesio2008} between submissions for pages over the \textit{Canola} corpus.}
 \end{figure}
 
 
-\subsection{Extraction Pipeline}
+\subsection{Extraction Pipeline\label{extrapipe}}
 
 Feature Extraction commences by running the {\KrdWrd} application extraction pipeline over the merged data obtained during annotation. 
 For the \textit{Canola} corpus' 216 pages, it took 2.5 seconds on average per page to generate text (2.5 million characters total), DOM information (46575 nodes total), screen-shots (avg.~size 997x4652 pixels) and a file with the annotation target class for each text node.
@@ -131,7 +146,7 @@ For the \textit{Canola} corpus' 216 pages, it took 2.5 seconds on average per pa
 We only used the stock {\KrdWrd} features on the DOM tree and visual pipeline.
 For computing textual features, we borrowed Victor's \cite{spoustamarekpecina2008} text feature extractor.
 
-\subsection{Experiment}
+\subsection{Experiment\label{experiment}}
 
 We used the data gathered by the feature extraction for training a Support Vector Machine \cite{libsvm}.
 We used an RBF kernel with optimal parameters determined by a simple grid search to create ad-hoc models on a per-pipeline basis.
@@ -193,7 +208,7 @@ For result analysis, we would like to expand the visual diff generated from clas
 Showing results from separate runs on different subsets of the data or different parameters on one page would facilitate manual data inspection.
 Presenting selected feature values per node might also help in developing new feature extractors, especially in the DOM context.
 
-Furthermore, we would like to integrate the JAMF framework \cite{Steger08}, a component-based client/server system for building and simulating visual attention models, into the tool chain.
+Furthermore, we would like to integrate the JAMF framework \cite{steger08}, a component-based client/server system for building and simulating visual attention models, into the tool chain.
 This would allow for features based on the analysis of the rendered pages akin to how humans perceive these pages while browsing.
 
 Summarizing, we designed and implemented an architecture for holistic treatment of Web pages in classification tasks.

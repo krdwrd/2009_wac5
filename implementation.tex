@@ -28,8 +28,8 @@ We note that WebKit's rise and fast pace of development might change that pictur
 \subsubsection{Firefox Add-on}
 
 Interactive visual annotation of corpus pages via Web browser is realized by the {\KrdWrd} Firefox Add-on.
-The imposed annotation \emph{base data} \cite{MuellerStrube2003} are text elements in the DOM tree, which are non-overlapping word\mbox{-,} phrase\mbox{-,} and character-level strings, i.e.~we do not superimpose a different structure.
-\footnote{However, while grabbing documents we surround text nodes of running text with additional {<KW>-}Elements:
+The imposed annotation \emph{base data} \cite{muellerstrube2003} are text elements in the DOM tree, which are non-overlapping word\mbox{-,} phrase\mbox{-,} and character-level strings, i.e.~we do not superimpose a different structure.
+\footnote{However, while grabbing documents we surround text nodes of running text with additional {$<$KW$>$-}Elements:
 this delimits large amounts of text under a single node in the DOM tree,
 i.e.~when the whole text could only be selected as a whole, these elements loosen this restriction but,
 on the other hand, do not affect the rendering of the Web page or other processing steps.}
@@ -91,7 +91,7 @@ The result is delivered back to the user's browser as seen in figure \ref{f:tut1
 \jss{\includegraphics[width=0.5\textwidth]{tut1}}
 	{\includegraphics[width=0.8\textwidth]{tut1}}
 \caption{\label{f:tut1}During the tutorial, a Visual Diff between the user's submission and the sample data is presented right after submission.
-	Here, the annotation from Figure \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback in dark color -- contrary to the heading ``Information Technology Services Support'' that was tagged correctly and hence, shows up in light color.}
+	Here, the annotation from figure \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback in dark color -- contrary to the heading ``Information Technology Services Support'' that was tagged correctly and hence, shows up in light color.}
 \end{figure}
 
 \subsubsection{Database}
@@ -107,7 +107,7 @@ This should scale up to some thousand corpus pages and users.
 It is important to note that any database content must be pre-processed to be encoded in UTF-8 only.
 Unifying this bit of data representation at the very start is essential to avoid \textit{encoding hell} later in the process.
 To this end, we rely on Mozilla's \emph{Universal Charset Detector}\footnote{\url{http://www.mozilla.org/projects/intl/detectorsrc.html}},
-which is part of the Gecko engine, a mature \emph{composite approach to language/encoding detection} \cite{LiMomoi2001} 
+which is part of the Gecko engine, a mature \emph{composite approach to language/encoding detection} \cite{limomoi2001} 
 -- the UTF-8 encoded output is feed into the database.
 \subsubsection{Proxy}
 
@@ -125,7 +125,8 @@ We therefore generate one feature vector per such node through a linguistic, vis
 
 \subsubsection{Text}
 
-For linguistic processing, the Application dumps raw text from the individual nodes, with leading and trailing whitespace removed, converted to UTF-8 where applicable.
+For linguistic processing, the Application dumps raw text from the individual text nodes, with leading and trailing whitespace removed, converted to UTF-8 where applicable,
+i.e.~the quirks of handling languages like Chinese and Japanese, or even bi-directional languages like Hebrew are transparent to our processing and the subsequent applications need to be capable of handling these languages.
 External applications can read these data and write back the feature vector resulting from their computation in the same format.
 
 For Computational Linguistic tools relying on phrase-level structured input,
@@ -152,7 +153,7 @@ We also provide a list of the types of node preceding the current node in the DO
 \end{figure}
 
 For visual analysis, the Application provides full-document screen-shots and coordinates of the bounding rectangles of all text nodes.%
-\footnote{This Extractor requires at least XUL Runner Version 1.9.2 (corresponding to Firefox Version 3.5) which is still in beta at the time of this writing.}
+\footnote{This Extractor requires at least XUL Runner Version 1.9.2 (corresponding to Firefox Version $>$ 3.5) which is still in beta at the time of this writing.}
 When text is not rendered in one straight line, multiple bounding boxes are provided as seen in figure \ref{f:vizwrap}.
 This input can be processed by any application suitable for visual feature extraction.
 
