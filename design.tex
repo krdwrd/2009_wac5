@@ -1,6 +1,6 @@
 \subsection{Design Goals}
 
-We want to provide an architecture for Web data processing that is based on the unified treatment of data representation and access on annotation and processing side.
+We aim to provide an architecture for Web data processing based on the unified treatment of data representation and access on both the annotation and the processing side.
 This includes an application for users to annotate a corpus of Web pages by classifying continuous text elements and
 a back-end application that processes those user annotations and extracts features from Web pages for further automatic processing. 
 
@@ -18,14 +18,14 @@ We need a stable HTTP data source that is independent of the original Website, i
 Back-end processing should run without requiring any kind of human interaction.
 
 \item[Replicability]
-Computations carried out on Web pages' representation must be replicable across systems, including any user-side processing.
+Computations carried out on Web page representations must be replicable across systems, including any user-side processing.
 
 \item[Quantity]
-Corpus size should not influence the performance of the system and total processing time should grow linearly with the corpus.
+Corpus size should not influence the performance of the system and total processing time should scale linearly with the corpus.
 
 \item[Usability]
 Acquisition of manually classified corpora requires a fair amount of contributions by users annotating pages.
-Achieving a high level of usability for the end-user therefore is of paramount importance.
+Achieving a high level of usability for the end-user therefore is paramount.
 As a guideline we should stay as close as possible to the everyday Web experience.
 We also need to provide tools for learning how to use the annotation tool and how to annotate Web pages.
 
@@ -33,8 +33,8 @@ We also need to provide tools for learning how to use the annotation tool and ho
 
 \subsection{Core Architecture}
 
-To address these requirements, we developed an abstract architecture, a simplified version of which is depicted in figure \ref{f:arch}.
-We will outline the rationale for the basic design decisions below.
+To address these requirements, we developed an abstract architecture, a simplified version of which is depicted in Figure \ref{f:arch}.
+We outline the rationale for the basic design decisions below.
 
 
 For rendering a Web page, an object tree is constructed from its HyperText Markup Language (HTML) source code.
@@ -42,12 +42,12 @@ This tree can be traversed and its nodes inspected, modified, deleted and create
 Its most popular use case is client-side dynamic manipulation of Web pages, for visual effects and interactivity.
 This is most commonly done by accessing the DOM through a JavaScript interpreter.
 Essentially, a page's DOM tree gives access to all the information we set out to work on: structure, textual content and visual rendering data.
-Therefore, we make it the sole interface between application and data.
+Therefore, it serves as the sole interface between application and data.
 
 While all browsers try to implement some part of the DOM standard (currently, Version 3 is only partially implemented in most popular browsers), they vary greatly in their level of compliance as well as their ability to cope with non-standard compliant content.
 This leads to structural and visual differences between different browsers rendering the same Web page.
 
-Therefore, to guarantee \textit{replicability}, we require the same DOM engine to be used through the system.
+Therefore, to guarantee \textit{replicability}, we require the same DOM engine to be used through the envisioned system.
 
 
 To reach a maximal level of \textit{automaticity} and not to limit the \textit{quantity} of the data, it is important that data analysis takes place in a parallel fashion and does not require any kind of graphical interface, so it can e.g.~be executed on server farms.
@@ -64,7 +64,7 @@ This setup allows the architecture to scale \textit{automatically} with user num
 \textit{Stability} of data sources is a major problem when dealing with Web data.
 As we work on Web pages and the elements contained in them, simple HTML dumping is not an option -- all applications claiming to offer full rewriting of in-line elements fail in one way ore another, especially on more dynamic Web sites.
 Instead, we use a HTTP proxy to cache Web data used in our own storage.
-By setting the server to grab content only upon first request and providing an option to turn off download of new data, we can create a closed system that does not change anymore once populated.
+By setting the server to grab content only upon first request and providing an option to turn off download of new data, we can create a closed system that does not change once populated.
 
 \begin{figure}
 \jss{\includegraphics[width=0.4\textwidth]{arch}}

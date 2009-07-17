@@ -1,7 +1,7 @@
 
 \begin{abstract}
 Algorithmic processing of Web content mostly works on textual contents, neglecting visual information.
-Annotation tools mostly share this deficit as well.
+Annotation tools largely share this deficit as well.
 
 We specify requirements for an architecture to overcome both problems and propose an implementation, the \KrdWrd~system.
 It uses the Gecko rendering engine for both annotation and feature extraction, providing unified data access in every processing step.
@@ -45,8 +45,8 @@ The underlying data, tools, and programs are bundled with the {\KrdWrd} distribu
 
 \subsection{Data Acquisition\label{datagather}}
 
-Gathering a set of sample pages is at the beginning of having people tag new data.
-Therefore, we acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce a URL list from the seed terms in table \ref{t:seed} using the Yahoo search engine. 
+Gathering a set of sample pages is the first step before utilizing people to tag new data.
+Therefore, we acquired a new corpus named \textit{Canola} by using the BootCaT \cite{bootcat} tool to produce a URL list from the seed terms in Table \ref{t:seed} using the Yahoo search engine. 
 
 \begin{table}
 \centering
@@ -74,7 +74,7 @@ To populate the proxy, we ran the Application on every URL once and also extract
 We then filtered for text lengths between 500 and 6,000 characters \footnote{\ldots for Chinese these numbers had to be cut down to 50 and 600, however.} and ran the Application once again, this time dumping the raw HTML code of the pages in UTF-8 format.
 During this second pass, the proxy is switched to block access to external sources.
 This ensures that no dynamic external content makes it into the corpus data, while letting innocent content pass.
-See figure \ref{f:iframes} for an example.
+See Figure \ref{f:iframes} for an example.
 
 The resulting HTML is post-processed to ensure that references and encodings are consistent:
 The head tag is expanded by a \texttt{<base href="\textit{original url}" />} line, so a browser later viewing the dumped HTML will request embedded objects by their original URLs, which can then be served by the proxy.
@@ -95,13 +95,13 @@ and then annotate pages from the \textit{Canola} corpus as part of an homework a
 The annotation process consisted of tagging text on Web pages with \emph{three} tags `good', `bad', and `uncertain'.
 
 Over the course of two weeks, about 60 students provided a total average of 7.75 annotations per page.
-As the time data in figure \ref{f:userstats} suggests, users learn quickly; 
+As the time data in Figure \ref{f:userstats} suggests, users learn quickly; 
 Average per-page annotation times drop well below three minutes after some training.
 The tutorial with its ten pages took on average 22 minutes to complete;
 note however, these pages were shortened and stripped down to illustrate particular aspects of Web pages.
 
-Integration of the Add-on in users' environments was flawless and we did not receive any reports about usability or general handling problems.
-Manual inspection of submissions also did not show any anomalies but to the contrary, indicated that submitters took great care to provide adequate annotations (c.f.~figure \ref{f:merge}).
+Integration of the Add-on in users' environments was flawless and we did not receive any reports of usability or general handling problems.
+Manual inspection of submissions also did not show any anomalies, but to the contrary, indicated that submitters took great care to provide adequate annotations (c.f.~Figure \ref{f:merge}).
 
 \begin{figure}[h]
 \centering
@@ -116,7 +116,7 @@ Manual inspection of submissions also did not show any anomalies but to the cont
 	Time spent for annotation of a single Web page across all annotators of the \textit{Canola} corpus.}
 \end{figure}
 
-The data obtained from user annotations was next merged into a single corpus using the Applications \textit{merge} function (c.f.~\ref{merge}), resulting in a total of 216 corpus pages, each backed by up to 8 user submissions.
+The data obtained from user annotations was next merged into a single corpus using the Application's \textit{merge} function (c.f.~\ref{merge}), resulting in a total of 216 corpus pages, each backed by up to 8 user submissions.
 Different treatment of JavaScript on the client side resulted in partial misalignment on some pages:
 dynamic client code had inserted or re-ordered nodes in some instance while not in others.
 We extended the merge procedure to accept some fuzziness in node matching, but still lost data from about 5\% of submissions that could not be re-aligned.
@@ -151,9 +151,9 @@ For computing textual features, we borrowed Victor's \cite{spoustamarekpecina200
 We used the data gathered by the feature extraction for training a Support Vector Machine \cite{libsvm}.
 We used an RBF kernel with optimal parameters determined by a simple grid search to create ad-hoc models on a per-pipeline basis.
 The total number of feature vectors corresponded to the number of text nodes in the corpus and was 46575.
-Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in table \ref{t:res}.
+Vector lengths for the different pipelines and test results from 10-fold cross validation are shown in Table \ref{t:res}.
 
-Although the results for the single pipelines look quite promising -- especially the visual pipeline performed surprisingly well given its limited input -- combinations of feature sets in a single SVM model perform only marginally better.
+Although the results for the single pipelines look quite promising -- especially the surprisingly good performance of the visual pipeline given its limited input -- combinations of feature sets in a single SVM model perform only marginally better.
 We therefore suggest running separate classifiers on the feature sets and only merging their results later, possibly in a weighted voting scheme.
 DOM features would certainly benefit most from e.g.~a classifier that can work on structured data.
 

@@ -13,12 +13,12 @@ Whereas they are quite immature at the moment and not very widely used, this wil
 Whereas the open source variant of Google's browser, \textit{Chromium}, promises superior execution speed by coupling WebKit with its own V8 JavaScript engine, it suffers from the same problem as WebKit itself namely, not being stable enough to serve as reliable platform --
 the Linux client for example is barely usable, a Mac client does not even exist, yet.
 
-We also briefly checked on Presto (Opera) and Trident (Microsoft), but discarded them due to their proprietary nature and lack of suitable APIs.
+We also briefly evaluated Presto (Opera) and Trident (Microsoft), but discarded them due to their proprietary nature and lack of suitable APIs.
 
-The Gecko engine (Mozilla Corporation) in conjunction with its JavaScript implementation Spidermonkey marks a special case:
+The Gecko engine (Mozilla Corporation), in conjunction with its JavaScript implementation Spidermonkey, marks a special case:
 It implements XUL \cite{xul}, the XML User Interface Language, as a way to create feature rich cross-platform applications.
 The most prominent of those is the Firefox browser, but also e.g.~Thunderbird, Sunbird and Flock are built with XUL.
-An add-on system is provided that allows extending the functionality of XUL applications to third-party code that gains full access to the DOM representation, including the XUL part itself.
+An add-on system is provided that allows extending the functionality of XUL applications to third-party code, which gains full access to the DOM representation, including the XUL part itself.
 The proposed {\KrdWrd} back-end can be implemented in the same manner as Firefox: provide custom JavaScript and XUL code on top of Mozilla's core XUL Runner. 
 Code can easily be shared between a browser add-on and XUL applications and unsupervised operation is trivial to implement in a XUL program.
 
@@ -37,12 +37,12 @@ The annotation then, is non-hierarchical, i.e.~a single node can only be classif
 continuous, i.e.~a class can only be assigned to one node at a time. 
 
 To facilitate adoption, it comes with a comprehensive user manual and an interactive tutorial (see below in \ref{webs}).
-For easy setup, Firefox' proxy configuration is automatically pointed to a preconfigured host, respective credentials are auto-added to the password manager and the user is directed to a special landing page upon successful installation.
+For easy setup, Firefox's proxy configuration is automatically pointed to a preconfigured host, respective credentials are auto-added to the password manager and the user is directed to a special landing page upon successful installation.
 The proxy feature also serves as a nice example of code shared between add-on and application.
 Furthermore, the installation binary is digitally signed, so the user does not have to go through various exception dialogs.
 
 Once installed, the functionality of the Add-on is available via a broom icon in the status bar.
-Whereas it offers lots of functions centered around annotation and corpus selection, its core feature is simple:
+Whereas it offers several functions centered around annotation and corpus selection, its core feature is simple:
 In highlight mode (the broom turns fuchsia) the mouse hovering over the page will highlight the text blocks below the cursor.
 The block can then be annotated using the context-menu or a keyboard short-cut, which will change its color to the one corresponding to the annotation class.
 Figure \ref{f:tut0} shows a fully annotated page and the context-menu.
@@ -61,9 +61,9 @@ It mainly uses the XUL browser control to load and render Web pages and hooks in
 Without greater C level patching, XUL still needs to create a window for all of its features to work.
 In server applications, we suggest using a virtual display such as Xvfb to fulfill this requirement.
 
-In operation the application parses the given command-line arguments, which triggers the loading of supplied URLs (local or remote) in dedicated browser widgets.
+During operation the application parses the given command-line arguments, which triggers the loading of supplied URLs (local or remote) in dedicated browser widgets.
 When the ``load complete'' event fires, one of several extraction routines is run and results are written back to disk.
-The implemented extraction routines are 
+The implemented extraction routines are: 
 \begin{description}
 \item[grab] for simple HTML dumps and screen-shots,
 \item[diff] for computing a visual difference rendering of two annotation vectors for the same page,
@@ -78,20 +78,20 @@ Clients access it via CGI scripts executed by a Web server while the back-end us
 
 \subsubsection{Web Server\label{webs}}
 
-Server-side logic is implemented by Python CGI scripts, so any Web server capable of serving static files and executing CGI scripts is supported.
+Server-side logic is implemented by Python CGI scripts, thus any Web server capable of serving static files and executing CGI scripts is supported.
 Users can access the server directly by URL or via the Firefox Add-on menu.
 An overview page rendered by the server provides a submission overview as well as a detailed per-corpus submission list.
 In conjunction with the Add-on, server side scripts control serving of corpus pages by summing over submissions in the database and randomly selecting a page from those with the least total submission number.
 The Web server also delivers the actual HTML data to the client, whereas any embedded objects are served by the separate proxy server.
 Furthermore, it controls the tutorial: Users are presented with sample pages and asked to annotate them.
 Upon submission, a server side script compares the user's annotation with a reference annotation stored in the database and generates a page that highlights differences.
-The result is delivered back to the user's browser as seen in figure \ref{f:tut1}.
+The result is delivered back to the user's browser, as seen in Figure \ref{f:tut1}.
 
 \begin{figure}
 \jss{\includegraphics[width=0.5\textwidth]{tut1}}
 	{\includegraphics[width=0.8\textwidth]{tut1}}
 \caption{\label{f:tut1}During the tutorial, a Visual Diff between the user's submission and the sample data is presented right after submission.
-	Here, the annotation from figure \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback in dark color -- contrary to the heading ``Information Technology Services Support'' that was tagged correctly and hence, shows up in light color.}
+	Here, the annotation from Figure \ref{f:tut0} was wrong in tagging the sub-heading ``ITSS Helpdesk'': the correct annotation (\textit{yellow}) is highlighted in the feedback in dark color -- contrary to the heading ``Information Technology Services Support'' that was tagged correctly and hence, shows up in light color.}
 \end{figure}
 
 \subsubsection{Database}
@@ -108,7 +108,7 @@ It is important to note that any database content must be pre-processed to be en
 Unifying this bit of data representation at the very start is essential to avoid \textit{encoding hell} later in the process.
 To this end, we rely on Mozilla's \emph{Universal Charset Detector}\footnote{\url{http://www.mozilla.org/projects/intl/detectorsrc.html}},
 which is part of the Gecko engine, a mature \emph{composite approach to language/encoding detection} \cite{limomoi2001} 
--- the UTF-8 encoded output is feed into the database.
+-- the UTF-8 encoded output is fed into the database.
 \subsubsection{Proxy}
 
 Any object contained in the corpus pages needs to be stored and made available to viewers of the page without relying on the original Internet source.
@@ -126,7 +126,7 @@ We therefore generate one feature vector per such node through a linguistic, vis
 \subsubsection{Text}
 
 For linguistic processing, the Application dumps raw text from the individual text nodes, with leading and trailing whitespace removed, converted to UTF-8 where applicable,
-i.e.~the quirks of handling languages like Chinese and Japanese, or even bi-directional languages like Hebrew are transparent to our processing and the subsequent applications need to be capable of handling these languages.
+i.e.~the quirks of handling languages such as Chinese and Japanese, or even bi-directional languages like Hebrew are transparent to our processing and the subsequent applications need to be capable of handling these languages.
 External applications can read these data and write back the feature vector resulting from their computation in the same format.
 
 For Computational Linguistic tools relying on phrase-level structured input,
@@ -139,7 +139,7 @@ each line -- and hence, feature vector -- is then duplicated as many times as no
 
 During an Application run, a set of ``DOM-Features'' is directly generated and dumped as feature vector.
 
-Choosing the right DOM properties and apply the right scaling is a non-trivial per-application decision.
+Choosing the right DOM properties and applying the right scaling is a non-trivial per-application decision.
 Our reference implementation includes features such as depth in the DOM-tree, number of neighboring nodes, ratio text characters to HTML code characters,
   and some generic document properties as number of links, images, embedded objects and anchors.
 We also provide a list of the types of node preceding the current node in the DOM-tree.
@@ -154,8 +154,8 @@ We also provide a list of the types of node preceding the current node in the DO
 
 For visual analysis, the Application provides full-document screen-shots and coordinates of the bounding rectangles of all text nodes.%
 \footnote{This Extractor requires at least XUL Runner Version 1.9.2 (corresponding to Firefox Version $>$ 3.5) which is still in beta at the time of this writing.}
-When text is not rendered in one straight line, multiple bounding boxes are provided as seen in figure \ref{f:vizwrap}.
+When text is not rendered in one straight line, multiple bounding boxes are provided as seen in Figure \ref{f:vizwrap}.
 This input can be processed by any application suitable for visual feature extraction.
 
-For simple statistics dealing with the coordinates of the bounding boxes, we use a simple Python script to generate basic features such as total area covered in pixel, number of text constituents, their variance in x-coordinates, average height and the-like.
+For simple statistics dealing with the coordinates of the bounding boxes, we use a Python script to generate basic features such as total area covered in pixel, number of text constituents, their variance in x-coordinates, average height and the-like.
 
