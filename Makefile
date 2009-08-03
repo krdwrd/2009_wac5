@@ -1,5 +1,5 @@
 RUB:=rubber
-RUBARGS:=-df -I ../imgs/ -I ../../theses/images/
+RUBARGS:=-df
 
 default: paper.pdf
 
