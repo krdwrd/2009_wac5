@@ -1,0 +1,421 @@
+\documentclass{beamer}
+
+% don't display the beamer navbar
+\usenavigationsymbolstemplate{}
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+
+%Candidates: Antibes, Bergen, Berkeley, Berlin, Boadilla, Copenhagen, Darmstadt, Dresden,
+%            Frankfurt, Goettingen, Hannover, Ilmenau, JuanLesPins, Madrid, Malmoe, Marburg,
+%            Montpellier, PaloAlto, Pittsburgh, Rochester, Singapore, Szeged, Warsaw
+%
+% see: http://mike.polycat.net/gallery/beamer-themes for an overview
+\usetheme{Darmstadt}
+
+\usepackage{xmpmulti}
+%\usepackage{multimedia}
+
+\title[KrdWrd]{KrdWrd}
+\subtitle{\medskip Architecture for Unified Processing of Web Content}
+ 
+\author[johannes and egon]{johannes m.~steger and egon w.~stemle}
+\date{}
+\institute{
+\begin{tabular}[h!]{cc}
+Institute of Cognitive Science & Center for Mind/Brain Sciences \\
+University of Osnabr\"{u}ck & University of Trento \\
+\end{tabular}
+}
+
+%
+%DOCUMENT begins here
+%
+\begin{document}
+
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{Outline}
+    \tableofcontents
+\end{frame}
+
+%%%%%%
+%
+%CONTENT comes here
+%
+\section{Introduction}
+\subsection*{}
+    \begin{frame}
+    \frametitle{The na\"{i}ve Way of Tagging -- or CLEANEVAL-1\ldots}
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{CleanEval.png}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+    \frametitle{\ldots and another Approach to Cleaning I}
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{krdwrd_mask.png}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+    \frametitle{\ldots and another Approach to Cleaning II}
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{DSC_0004_Mod_w_Heatmap_65.jpg}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+    \frametitle{\ldots and another Approach to Cleaning III}
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{heatm.png}
+        \end{center}
+    \end{frame}
+
+
+    \begin{frame}
+    \frametitle{Lessons Learnt -- or CLEANEVAL-2}
+        \begin{block}{Additional Requirement}
+            [\ldots]participants were largely interested in using supervised machine learning techniques[\ldots and \ldots] most systems used the HTML structure of the input page as an input to their algorithms[\ldots]
+        \end{block}
+
+\pause
+
+        \begin{block}{\ldots while being at it: namely, improving the set-up}
+            preserve the \textit{structural} information of Web pages. 
+        \end{block}
+	
+\pause
+	
+        \begin{block}{\ldots or even better}
+            \textit{annotate} the structural information of Web pages. 
+        \end{block}
+    \end{frame}
+
+
+\section{Design}
+    \subsection{Goals}
+    \begin{frame}{Aim}
+            \begin{block}{}
+                Provide an architecture for Web data processing based on \\
+                unified treatment of data representation and access on \\ 
+                the annotation and the processing side.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Requirements I}
+            \begin{block}{Flexibility}
+                System should be open to allow for customization but also, \\
+                provide stable interfaces for more common tasks to allow for modularization.
+            \end{block}
+
+\pause
+
+            \begin{block}{Stability}
+                We need a stable HTTP data source that is independent of the original Website, including any dependencies such as images, style-sheets or scripts.
+            \end{block}
+
+\pause
+
+            \begin{block}{Automaticity}
+                Back-end processing should run without requiring any kind of human interaction.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Requirements II}
+            \begin{block}{Replicability}
+                Computations carried out on Web page representations must be replicable across systems, including any user-side processing.
+            \end{block}
+
+\pause
+
+            \begin{block}{Quantity}
+                Corpus size should not influence the performance of the system and total processing time should scale linearly with the corpus.
+            \end{block}
+
+\pause
+
+            \begin{block}{Usability}
+                Acquisition of manually classified corpora requires a fair amount of contributions by users annotating pages.
+                Achieving a high level of usability for the end-user therefore is paramount.
+            \end{block}
+        \end{frame}
+
+    \subsection{Core Architecture}
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{block}{DOM Tree}
+                For rendering a Web page, an object tree is constructed from its HTML source code. \\
+                This tree is platform- and language-independent, it can be traversed and its nodes inspected, modified, deleted and created through an API specified by the W3C Document Object Model (DOM) Standard.
+                Its most popular use case is client-side dynamic manipulation of Web pages, for visual effects and interactivity.
+
+                \medskip
+                It gives access to all the information we set out to work on: structure, textual content and visual rendering data.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{center}
+                \includegraphics[height=.75\textheight]{Dom-inspector-baumstruktur.png}
+            \end{center}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{block}{}
+                All browsers implement some part of the DOM standard. \\
+                However, variation in their level of compliance as well as their ability to cope with non-standard compliant content is quite large. \\
+                This leads to structural and visual differences between different browsers rendering the same Web page.
+
+                \medskip
+                Therefore, to guarantee \textit{replicability}, we require the same DOM engine to be used through the envisioned system.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{block}{}
+                To reach a maximal level of \textit{automaticity} and not to limit the \textit{quantity} of the data, it is important that data analysis takes place in a parallel fashion and does not require any kind of graphical interface.\\
+                On the other hand we also need to be able to present pages within a browser to allow for user annotation.
+
+                \medskip
+                Consequently, the same DOM engine needs to power a browser as well as a headless back-end application, with \textit{usability} being an important factor in the choice of a particular browser.
+            \end{block}
+        \end{frame}
+        
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{block}{}
+                Users should have no influence on the annotation process, the sequence of presentation of pages, etc. \\
+                Any number of concurrently active users should be coordinated in their efforts and submissions distributed equally across corpus pages. \\
+                All data, pristine and annotated, should be stored in a database attached to the Web server.
+
+                \medskip
+                This allows the architecture to scale \textit{automatically} with user numbers under any usage pattern and with reasonable submission \textit{quantities}.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{block}{}
+                \textit{Stability} of data sources is a major problem when dealing with Web data. \\
+                For the elements contained in Web pages simple HTML dumping is not an option -- all applications claiming to offer full rewriting of in-line elements fail in one way ore another. \\
+                Instead, a HTTP proxy should cache the used Web data in its own storage. \\
+
+                \medskip
+                Setting the proxy to grab content only upon first request and turn off download of new data, we can create a closed system that does not change once populated.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Meeting the Requirements}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{arch}
+            \end{center}
+        \end{frame}
+
+\section{Implementation}
+
+    \begin{frame}
+        \frametitle{}
+        \begin{block}{}
+            We maintain the implementation in a source code repository at \url{http://krdwrd.org
+            }.
+            The documentation includes pointers to the required external software.
+        \end{block}
+    \end{frame}
+
+    \subsection{DOM Engine}
+
+        \begin{frame}
+            \frametitle{}
+            \begin{block}{}
+                The choice of DOM engine is central to the implementation.
+
+\pause
+\medskip
+                Mozilla's Gecko engine, in conjunction with its JavaScript implementation Spidermonkey, marks a special case: \\
+                It implements XUL, the XML User Interface Language, as a way to create feature rich cross-platform applications.
+
+\pause
+\medskip
+                The most prominent of those is the Firefox browser, but also e.g.~Thunderbird, Sunbird and Flock are built with XUL.
+               
+\pause
+\medskip
+                An add-on system is provided that allows extending the functionality of XUL applications to third-party code, which gains full access to the DOM representation, including the XUL part itself.
+            \end{block}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{DOM Engine -- Mozilla's Gecko engine}
+            \begin{block}{}
+                The back-end can be implemented in the same manner as Firefox: provide custom JavaScript and XUL code on top of Mozilla's core XUL Runner. 
+
+                \medskip
+                The GUI can be implemented as add-on -- code can easily be shared between a browser add-on and XUL applications and unsupervised operation is trivial to implement in a XUL program.
+            \end{block}
+        \end{frame}
+        
+    \subsection{Storage and Control}
+
+        \begin{frame}
+            \frametitle{}
+            \begin{block}{}
+                Central storage of Web pages and annotation data is provided by a database. \\
+                Clients access it via CGI scripts executed by a Web server while the back-end uses python wrapper scripts for data exchange.
+            \end{block}
+        \end{frame}
+    
+
+        \begin{frame}
+            \frametitle{Web Server -- CGI-enabled (Apache) + python + shell}
+            \begin{block}{}
+                Server-side logic is implemented by Python CGI scripts.
+
+                Users can access the server directly by URL or via the Firefox Add-on menu.
+
+                An overview page rendered by the server provides a submission overview as well as a detailed per-corpus submission list.
+            \end{block}
+        \end{frame}
+        
+        \begin{frame}
+            \frametitle{Database -- SQLite}
+            \begin{block}{}
+                The database mainly stores raw HTML code of corpus pages. \\
+                User submissions are vectors of annotation classes, the same length as the number of text nodes in a page.
+
+\pause
+                \medskip
+                It is important to note that any database content must be pre-processed to be encoded in UTF-8 only.
+
+                We rely on Mozilla's \emph{Universal Charset Detector},
+                which is part of the Gecko engine, a mature \emph{composite approach to language/encoding detection}.
+            \end{block}
+        \end{frame}
+        
+        \begin{frame}
+            \frametitle{Proxy -- WWWOffle}
+            \begin{block}{}
+                Any object contained in the corpus pages needs to be stored and made available to viewers of the page without relying on the original Internet source.
+
+                \medskip
+                Given an URL list, initial population of the proxy data can easily be achieved by running the XUL application in grabbing mode while letting the proxy fetch external data.
+                Afterwards, it can be switched to block that access, essentially creating a closed system.
+            \end{block}
+        \end{frame}
+
+    \subsection{Feature Extractors}
+
+        \begin{frame}
+            \frametitle{VIZ, DOM, and CL}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{vizwrap}
+            \end{center}
+            \medskip
+            \begin{block}{}
+                {\ttfamily{\footnotesize
+                \ldots \\
+                22 | By Paul Kiel - June 18, 2007, 1:06PM \\
+                23 | By Paul Kiel - June 18, 2007, 1:06PM \\
+                24 | President Bush has claimed that his executive powers allow him to bypass more than 1,100 laws enacted since he took office -- in what are called 'signing statements.' But what has been \ldots \\
+                25 | President Bush has claimed that his executive powers allow him to bypass more than 1,100 laws enacted since he took office -- in what are called 'signing statements.' \ldots \\ 
+                \ldots
+                }}
+            \end{block}
+        \end{frame}
+        
+        \begin{frame}
+            \frametitle{}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{1125_pred.png}
+            \end{center}
+        \end{frame}
+
+\section{Case Study}
+\subsection*{}
+    \begin{frame}
+        \frametitle{}
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{shot1}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}{Results I}
+
+        \begin{block}{The Gold Standard Corpus}
+            \begin{itemize}
+                \item Length of documents was fixed between 500 and 6,000 words
+                \item Final Data Set:
+            \begin{itemize}
+                \item 219 Web pages, consisting of more than 420,000 words and over 2.5 million characters, were
+                \item independently processed by 64 users who submitted 
+                \item 1595 results (re-submits for a page counted only once), i.e. 
+                \item an average of 7.28 submits/page.
+            \end{itemize}
+            \item Average inter-coder agreement (Fleiss's multi-$\pi$) over all valid submissions is 0.85 
+            \end{itemize}
+        \end{block}
+
+    \end{frame}
+
+    \begin{frame}{Results II}
+        \begin{center}
+            \begin{table}
+                \caption{10-fold cross validated classification test results for different combinations of the textual (cl), DOM-property based (dom) and visual (viz) pipelines on the \textit{Canola} data set obtained using stock SVM regression with a RBF kernel.}
+                \label{t:res}
+                \centering
+                \begin{tabular}[h]{l|c|rrr}
+                    Modules & Number of Features & Accuracy & Precision & Recall \\
+                    \hline
+                    cl         & 21 & \textbf{86\%} & 61\% & 76\% \\
+                    dom *      & 13 & 65\% & 64\% & 56\% \\
+                    viz *      &  8 & \textbf{86\%} & 64\% & \textbf{82\%} \\
+                    cl dom *   & 34 & 67\% & 74\% & 57\% \\
+                    dom viz *  & 21 & 67\% & 72\% & 59\% \\
+                    cl viz     & 29 & \textbf{86\%} & 63\% & 78\% \\
+                    cl dom viz & 42 & 68\% & \textbf{76\%} & 58\% \\
+                \end{tabular}
+                * data obtained by training on reduced number of input vectors.
+            \end{table}
+        \end{center}
+    \end{frame}
+
+%
+%
+%%%
+\section{Questions}
+\begin{frame}{}
+    \begin{block}{}
+        QUESTIONS\ldots
+    \end{block}
+\end{frame}
+
+%%%
+% REFERENCES
+%
+%\part{References}
+	%\frame{\partpage}
+
+	\section{References}
+	\begin{frame}[allowframebreaks]
+		\frametitle{References}
+	
+		\setbeamertemplate{bibliography item}[text]
+		\footnotesize
+		\bibliographystyle{myalphaurl}
+		\bibliography{bib}
+		\nocite{*}
+	\end{frame}
+%
+%%%
+
+\end{document}
