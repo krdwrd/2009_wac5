@@ -1,0 +1,75 @@
+\subsection{Design Goals}
+
+We aim to provide an architecture for Web data processing based on the unified treatment of data representation and access on both the annotation and the processing side.
+This includes an application for users to annotate a corpus of Web pages by classifying continuous text elements and
+a back-end application that processes those user annotations and extracts features from Web pages for further automatic processing. 
+
+\subsection{Requirements}
+
+\begin{description}
+
+\item[Flexibility]
+The system should be open enough to allow customization of every part but also, specifically provide stable interfaces for more common tasks to allow for modularization.
+
+\item[Stability]
+We need a stable HTTP data source that is independent of the original Website, including any dependencies such as images, style-sheets or scripts.
+
+\item[Automaticity]
+Back-end processing should run without requiring any kind of human interaction.
+
+\item[Replicability]
+Computations carried out on Web page representations must be replicable across systems, including any user-side processing.
+
+\item[Quantity]
+Corpus size should not influence the performance of the system and total processing time should scale linearly with the corpus.
+
+\item[Usability]
+Acquisition of manually classified corpora requires a fair amount of contributions by users annotating pages.
+Achieving a high level of usability for the end-user therefore is paramount.
+As a guideline we should stay as close as possible to the everyday Web experience.
+We also need to provide tools for learning how to use the annotation tool and how to annotate Web pages.
+
+\end{description}
+
+\subsection{Core Architecture}
+
+To address these requirements, we developed an abstract architecture, a simplified version of which is depicted in Figure \ref{f:arch}.
+We outline the rationale for the basic design decisions below.
+
+
+For rendering a Web page, an object tree is constructed from its HyperText Markup Language (HTML) source code.
+This tree can be traversed and its nodes inspected, modified, deleted and created through an API specified by the World Wide Web Consortium's (W3C) Document Object Model (DOM) Standard \cite{dom}.
+Its most popular use case is client-side dynamic manipulation of Web pages, for visual effects and interactivity.
+This is most commonly done by accessing the DOM through a JavaScript interpreter.
+Essentially, a page's DOM tree gives access to all the information we set out to work on: structure, textual content and visual rendering data.
+Therefore, it serves as the sole interface between application and data.
+
+While all browsers try to implement some part of the DOM standard (currently, Version 3 is only partially implemented in most popular browsers), they vary greatly in their level of compliance as well as their ability to cope with non-standard compliant content.
+This leads to structural and visual differences between different browsers rendering the same Web page.
+
+Therefore, to guarantee \textit{replicability}, we require the same DOM engine to be used through the envisioned system.
+
+
+To reach a maximal level of \textit{automaticity} and not to limit the \textit{quantity} of the data, it is important that data analysis takes place in a parallel fashion and does not require any kind of graphical interface, so it can e.g.~be executed on server farms.
+On the other hand we also need to be able to present pages within a browser to allow for user annotation.
+Consequently, the same DOM engine needs to power a browser as well as a headless back-end application, with \textit{usability} being an important factor in the choice of a particular browser.
+
+
+The annotation process, especially the sequence of presentation of pages, is controlled by a central Web server -- users cannot influence the pages they are served for annotation.
+Thereby any number of concurrently active users can be coordinated in their efforts and submissions distributed equally across corpus pages.
+All data, pristine and annotated, is stored in a database attached to the Web server.
+This setup allows the architecture to scale \textit{automatically} with user numbers under any usage pattern and with reasonable submission \textit{quantities}.
+
+
+\textit{Stability} of data sources is a major problem when dealing with Web data.
+As we work on Web pages and the elements contained in them, simple HTML dumping is not an option -- all applications claiming to offer full rewriting of in-line elements fail in one way ore another, especially on more dynamic Web sites.
+Instead, we use a HTTP proxy to cache Web data used in our own storage.
+By setting the server to grab content only upon first request and providing an option to turn off download of new data, we can create a closed system that does not change once populated.
+
+\begin{figure}
+\jss{\includegraphics[width=0.4\textwidth]{arch}}
+	{\includegraphics[width=0.8\textwidth]{arch}}
+\caption{\label{f:arch}Basic {\KrdWrd} Architecture: both users annotating corpus pages through their Web browser
+and back-end applications working on the data run the same DOM engine.
+	The central server delivers and stores annotation data and coordinates user submissions.}
+\end{figure}
