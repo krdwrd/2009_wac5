@@ -3,6 +3,8 @@
 
 WaC-5 Paper and Presentation: Architecture for Unified Processing of Web Content
 
+https://github.com/krdwrd/doc_2009_wac5/releases/download/paper_camera-ready/steger_stemle_2009_krdwrd.pdf
+
 ~~~~~{.bib}
 @inproceedings{StegerStemle2009,
     abstract = {Algorithmic processing of Web content mostly works on textual
